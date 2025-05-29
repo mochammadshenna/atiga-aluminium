@@ -597,13 +597,15 @@ For technical support or content updates:
 ### Mobile Responsiveness Enhancements
 
 - **Mobile-First Approach**:
-  - **Hero image reverted to framed design** that properly fits image without cropping using object-contain
+  - **Hero image frame redesigned** to be properly landscape/horizontal oriented (600-700px wide on desktop) with object-cover for better presentation
   - Touch-friendly button sizes (minimum 44px for all interactive elements)
   - Optimized font sizes that scale properly on mobile devices
   - Better spacing and padding adapted for small screens
 - **Products Section**:
-  - **Shows 2 columns on mobile** instead of 1 for better product visibility
-  - Improved card sizing and spacing for mobile interaction
+  - **Converted to horizontal scrolling cards** on mobile for optimal user experience
+  - Desktop maintains responsive grid layout (2-3 columns based on screen size)
+  - Mobile cards optimized with smaller dimensions and compact content
+  - **Click-anywhere-to-close functionality** added to product image popups for better UX
 - **About Section (Mengapa Memilih ATIGA)**:
   - **Features converted to horizontal scrolling cards** on mobile with swipe gestures
   - Desktop maintains grid layout while mobile uses scrollable cards
@@ -615,6 +617,7 @@ For technical support or content updates:
   - Both sections contained within main container for consistent spacing
   - Separate layouts for desktop (floating info over map) and mobile (stacked)
 - **Header & Navigation**:
+  - **Fixed mobile "Konsultasi Gratis" button visibility** with proper separation and full-width styling
   - Improved mobile menu layout with better touch targets
   - Responsive logo and navigation spacing
   - Touch-friendly hamburger menu with proper sizing

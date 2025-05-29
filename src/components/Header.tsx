@@ -96,21 +96,23 @@ const Header: React.FC = () => {
               <a
                 key={id}
                 href={`#${id}`}
-                className="text-gray-700 hover:text-blue-600 font-medium py-3 px-2 transition-colors border-b border-gray-100 last:border-0 touch-friendly"
+                className="text-gray-700 hover:text-blue-600 font-medium py-3 px-2 transition-colors border-b border-gray-100 touch-friendly"
                 onClick={() => setIsOpen(false)}
               >
                 {label}
               </a>
             ))}
-            <button
-              onClick={() => {
-                openWhatsApp();
-                setIsOpen(false);
-              }}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-full font-medium transition-all duration-300 mt-4 touch-friendly"
-            >
-              Konsultasi Gratis
-            </button>
+            <div className="pt-2 mt-2 border-t border-gray-200">
+              <button
+                onClick={() => {
+                  openWhatsApp();
+                  setIsOpen(false);
+                }}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-full font-medium transition-all duration-300 touch-friendly"
+              >
+                Konsultasi Gratis
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -264,22 +264,27 @@
   - [x] Touch-friendly button sizes (minimum 44px)
   - [x] Optimized font sizes for mobile devices
   - [x] Better spacing and padding for small screens
-  - [x] Hero image reverted to framed design that properly fits image without cropping
-  - [x] Products section shows 2 columns instead of 1 on mobile
-  - [x] About section features converted to horizontal scrolling cards on mobile
-  - [x] Testimonials section converted to horizontal scrolling cards on mobile
-  - [x] Contact section redesigned with info at top and map at bottom for mobile
-  - [x] Footer text wrapping fixed for mobile devices
+  - [x] **Hero image frame redesigned** to be properly landscape/horizontal oriented for desktop view
+  - [x] **Products section converted to horizontal scrolling** cards on mobile with better product visibility
+  - [x] **About section features** converted to horizontal scrolling cards on mobile
+  - [x] **Testimonials section** converted to horizontal scrolling cards on mobile
+  - [x] **Contact section redesigned** with info at top and map at bottom for mobile
+  - [x] **Footer text wrapping** fixed for mobile devices
 - [x] **Header Navigation**:
   - [x] Improved mobile menu layout
   - [x] Touch-friendly navigation buttons
   - [x] Better responsive spacing
+  - [x] **Fixed mobile "Konsultasi Gratis" button visibility** with proper separation and full-width styling
+- [x] **Product Features**:
+  - [x] **Click-anywhere-to-close functionality** added to product image popups
+  - [x] Enhanced popup interaction with better click handling
+  - [x] Smooth horizontal scrolling for mobile product cards
 - [x] **CSS Improvements**:
   - [x] Added mobile-first CSS utilities
   - [x] Prevented horizontal scroll on mobile
   - [x] Improved font smoothing for mobile devices
   - [x] iOS input zoom prevention
 - [x] **FloatingWhatsApp Button**:
-  - [x] Fixed direct WhatsApp functionality to open in new tab properly
+  - [x] **Fixed direct WhatsApp functionality** to open in new tab properly
   - [x] Added tooltip with better mobile interaction
   - [x] Improved button positioning and animation

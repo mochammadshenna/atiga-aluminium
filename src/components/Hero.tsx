@@ -131,16 +131,16 @@ const Hero: React.FC = () => {
               </div>
             </div>
 
-            {/* Right side image - Frame that fits image properly */}
+            {/* Right side image - Landscape frame for desktop */}
             <div className="relative order-1 md:order-2">
-              <div className="relative h-[400px] md:h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-xl">
-                {/* Hero Image with proper frame fitting */}
+              <div className="relative h-[300px] md:h-[450px] lg:h-[500px] w-full md:w-[600px] lg:w-[700px] rounded-2xl overflow-hidden shadow-xl mx-auto">
+                {/* Hero Image with landscape frame fitting */}
                 <img
                   ref={imageRef}
                   src="/images/hero-image.jpg"
                   alt="A3 Aluminium - Produk Berkualitas Tinggi"
-                  className="w-full h-full object-contain bg-gray-50 opacity-0 transition-opacity duration-800"
-                  style={{ objectPosition: 'center center' }}
+                  className="w-full h-full object-cover opacity-0 transition-opacity duration-800"
+                  style={{ objectPosition: 'right center' }}
                   onLoad={handleImageLoad}
                   onError={() => console.log('Image failed to load')}
                 />
@@ -155,8 +155,8 @@ const Hero: React.FC = () => {
                   </div>
                 )}
 
-                {/* Quality Badge - positioned for framed design */}
-                <div className="absolute top-4 right-4 md:top-6 md:right-6 bg-white/95 backdrop-blur-sm p-3 md:p-4 rounded-xl shadow-lg border border-gray-100">
+                {/* Quality Badge - positioned for landscape frame */}
+                <div className="absolute top-2 right-4 md:top-6 md:right-6 bg-white/95 backdrop-blur-sm p-3 md:p-4 rounded-xl shadow-lg border border-gray-100">
                   <div className="flex items-center space-x-2 md:space-x-3">
                     <div className="w-8 h-8 md:w-10 md:h-10 bg-green-100 rounded-full flex items-center justify-center">
                       <Shield size={16} className="md:w-5 md:h-5 text-green-600" />
@@ -169,9 +169,9 @@ const Hero: React.FC = () => {
                 </div>
               </div>
 
-              {/* Decorative elements for framed design */}
-              <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-blue-600/20 rounded-full blur-2xl"></div>
-              <div className="absolute -top-6 -right-6 w-32 h-32 bg-purple-600/10 rounded-full blur-2xl"></div>
+              {/* Decorative elements for landscape frame */}
+              <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-blue-600/20 rounded-full blur-2xl"></div>
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-purple-600/10 rounded-full blur-2xl"></div>
             </div>
           </div>
         </div>

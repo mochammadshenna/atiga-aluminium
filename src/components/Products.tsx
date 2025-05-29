@@ -100,7 +100,6 @@ const Products: React.FC = () => {
   const closeImagePopup = () => {
     setSelectedImage(null);
     document.body.style.overflow = 'auto';
-    document.body.style.pointerEvents = 'none'; // Reset pointer events
   };
 
   // WhatsApp function
@@ -173,83 +172,163 @@ const Products: React.FC = () => {
           })}
         </div>
 
-        {/* Products Grid */}
-        <div
-          ref={gridRef}
-          className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8"
-        >
-          {filteredProducts.slice(0, visibleProducts).map((product) => (
-            <div
-              key={product.id}
-              className="product-card bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer transform hover:-translate-y-2"
-              onClick={() => openImagePopup(product.images[0])}
-            >
-              {/* Product Image */}
-              <div className="relative h-64 overflow-hidden">
-                <img
-                  src={product.images[0]}
-                  alt={product.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {/* Products Grid - Desktop */}
+        <div className="hidden md:block">
+          <div
+            ref={gridRef}
+            className="grid grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {filteredProducts.slice(0, visibleProducts).map((product) => (
+              <div
+                key={product.id}
+                className="product-card bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer transform hover:-translate-y-2"
+                onClick={() => openImagePopup(product.images[0])}
+              >
+                {/* Product Image */}
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                {/* Product Category Badge */}
-                <div className="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  {productCategories.find(cat => cat.id === product.category)?.name}
-                </div>
+                  {/* Product Category Badge */}
+                  <div className="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    {productCategories.find(cat => cat.id === product.category)?.name}
+                  </div>
 
-                {/* View Button */}
-                <div className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Eye size={20} className="text-white" />
-                </div>
-              </div>
-
-              {/* Product Content */}
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors duration-300">
-                  {product.name}
-                </h3>
-
-                <p className="text-gray-600 mb-4 line-clamp-3">
-                  {product.description}
-                </p>
-
-                {/* Features */}
-                <div className="mb-6">
-                  <h4 className="text-sm font-medium text-gray-800 mb-2">Keunggulan:</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {product.features.slice(0, 3).map((feature, featureIndex) => (
-                      <span
-                        key={featureIndex}
-                        className="bg-blue-50 text-blue-700 px-2 py-1 rounded-md text-xs font-medium"
-                      >
-                        {feature}
-                      </span>
-                    ))}
+                  {/* View Button */}
+                  <div className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <Eye size={20} className="text-white" />
                   </div>
                 </div>
 
-                {/* Specifications */}
-                {product.specifications && (
-                  <div className="p-4 bg-gray-50 rounded-lg">
-                    <h4 className="text-sm font-medium text-gray-800 mb-2">Spesifikasi:</h4>
-                    <div className="space-y-1 text-sm text-gray-600">
-                      {product.specifications.material && (
-                        <div>Material: {product.specifications.material}</div>
-                      )}
-                      {product.specifications.thickness && (
-                        <div>Ketebalan: {product.specifications.thickness}</div>
-                      )}
-                      {product.specifications.warranty && (
-                        <div>Garansi: {product.specifications.warranty}</div>
-                      )}
+                {/* Product Content */}
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors duration-300">
+                    {product.name}
+                  </h3>
+
+                  <p className="text-gray-600 mb-4 line-clamp-3">
+                    {product.description}
+                  </p>
+
+                  {/* Features */}
+                  <div className="mb-6">
+                    <h4 className="text-sm font-medium text-gray-800 mb-2">Keunggulan:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {product.features.slice(0, 3).map((feature, featureIndex) => (
+                        <span
+                          key={featureIndex}
+                          className="bg-blue-50 text-blue-700 px-2 py-1 rounded-md text-xs font-medium"
+                        >
+                          {feature}
+                        </span>
+                      ))}
                     </div>
                   </div>
-                )}
+
+                  {/* Specifications */}
+                  {product.specifications && (
+                    <div className="p-4 bg-gray-50 rounded-lg">
+                      <h4 className="text-sm font-medium text-gray-800 mb-2">Spesifikasi:</h4>
+                      <div className="space-y-1 text-sm text-gray-600">
+                        {product.specifications.material && (
+                          <div>Material: {product.specifications.material}</div>
+                        )}
+                        {product.specifications.thickness && (
+                          <div>Ketebalan: {product.specifications.thickness}</div>
+                        )}
+                        {product.specifications.warranty && (
+                          <div>Garansi: {product.specifications.warranty}</div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        {/* Products Horizontal Scroll - Mobile */}
+        <div className="md:hidden">
+          <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 px-2">
+            {filteredProducts.slice(0, visibleProducts).map((product) => (
+              <div
+                key={product.id}
+                className="product-card flex-shrink-0 w-80 bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer transform hover:-translate-y-2"
+                onClick={() => openImagePopup(product.images[0])}
+              >
+                {/* Product Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  {/* Product Category Badge */}
+                  <div className="absolute top-3 left-3 bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium">
+                    {productCategories.find(cat => cat.id === product.category)?.name}
+                  </div>
+
+                  {/* View Button */}
+                  <div className="absolute bottom-3 right-3 bg-white/20 backdrop-blur-sm rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <Eye size={16} className="text-white" />
+                  </div>
+                </div>
+
+                {/* Product Content */}
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+                    {product.name}
+                  </h3>
+
+                  <p className="text-gray-600 mb-3 line-clamp-2 text-sm">
+                    {product.description}
+                  </p>
+
+                  {/* Features */}
+                  <div className="mb-4">
+                    <h4 className="text-xs font-medium text-gray-800 mb-1">Keunggulan:</h4>
+                    <div className="flex flex-wrap gap-1">
+                      {product.features.slice(0, 2).map((feature, featureIndex) => (
+                        <span
+                          key={featureIndex}
+                          className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md text-xs font-medium"
+                        >
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Specifications */}
+                  {product.specifications && (
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <h4 className="text-xs font-medium text-gray-800 mb-1">Spesifikasi:</h4>
+                      <div className="space-y-1 text-xs text-gray-600">
+                        {product.specifications.material && (
+                          <div>Material: {product.specifications.material}</div>
+                        )}
+                        {product.specifications.thickness && (
+                          <div>Ketebalan: {product.specifications.thickness}</div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-4">
+            <p className="text-sm text-gray-500">← Geser untuk melihat produk lainnya →</p>
+          </div>
         </div>
 
         {/* Load More Button */}
@@ -312,7 +391,10 @@ const Products: React.FC = () => {
 
       {/* Image Popup Modal */}
       {selectedImage && (
-        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={closeImagePopup}
+        >
           <div className="relative max-w-4xl max-h-[90vh] w-full h-full flex items-center justify-center">
             {/* Close Button */}
             <button
