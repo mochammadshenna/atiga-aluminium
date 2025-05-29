@@ -164,6 +164,17 @@ function App() {
   // }
 
   return (
+    // TODO : for test uncomment the code below
+    // <div className="font-sans">
+    //   <div className="fixed top-4 right-4 z-50 bg-black text-white p-4 rounded">
+    //     <button
+    //       onClick={() => setTestMode(true)}
+    //       className="bg-red-600 px-4 py-2 rounded text-sm"
+    //     >
+    //       Back to Test Menu
+    //     </button>
+    //   </div>
+
     <div className="font-sans">
       <Header />
       <Hero />
@@ -175,7 +186,7 @@ function App() {
       <Contact />
       <Footer />
       <FloatingWhatsApp />
-    </div>
+    </div >
   );
 }
 
