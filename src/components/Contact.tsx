@@ -1,14 +1,8 @@
-import { Mail, MapPin, Phone, Send } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import { Mail, Map, MapPin, Phone } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
 
 const Contact: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const [formStatus, setFormStatus] = useState<{
-    submitted: boolean;
-    success: boolean;
-    message: string;
-  }>({ submitted: false, success: false, message: '' });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -32,25 +26,10 @@ const Contact: React.FC = () => {
     };
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simulate form submission
-    setFormStatus({
-      submitted: true,
-      success: true,
-      message: 'Thank you for your message! We will get back to you soon.'
-    });
-
-    // Reset form
-    if (formRef.current) {
-      formRef.current.reset();
-    }
-
-    // Reset status after 5 seconds
-    setTimeout(() => {
-      setFormStatus({ submitted: false, success: false, message: '' });
-    }, 5000);
-  };
+  const latitude = -6.425802124247959;
+  const longitude = 106.82533393068653;
+  const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+  const embedUrl = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15864.8!2d${longitude}!3d${latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sid!4v1640000000000!5m2!1sen!2sid`;
 
   return (
     <div id="contact" className="py-16 md:py-24 bg-white">
@@ -60,135 +39,107 @@ const Contact: React.FC = () => {
       >
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Hubungi Kami</h2>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          {/* <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div> */}
+          {/* <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Hubungi tim kami untuk membahas kebutuhan pembuatan aluminium Anda
-          </p>
+          </p> */}
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-12">
-          <div className="lg:w-1/2">
-            <div className="bg-gray-50 p-8 rounded-lg shadow-md h-full">
-              <h3 className="text-2xl font-semibold text-gray-800 mb-6">Informasi Kontak</h3>
+        {/* Contact Layout with Contact Info Above Map */}
+        <div className="relative">
+          {/* Background Map Container */}
+          <div className="w-full h-[600px] rounded-2xl overflow-hidden shadow-xl">
+            <iframe
+              src={embedUrl}
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Lokasi ATIGA Aluminium"
+              className="w-full h-full filter brightness-90"
+            ></iframe>
+          </div>
 
-              <div className="space-y-6">
-                <div className="flex items-start">
-                  <div className="bg-blue-100 p-3 rounded-full text-blue-600 mr-4">
-                    <MapPin size={24} />
+          {/* Contact Information Card - Floating Above Map */}
+          <div className="absolute top-8 left-8 right-8 md:left-8 md:right-auto md:max-w-lg z-10">
+            <div className="bg-white/95 backdrop-blur-md p-8 rounded-2xl shadow-2xl border border-white/20 h-[520px] flex flex-col justify-between">
+              <div>
+                <h3 className="text-4xl font-bold text-gray-800 mb-6 text-center">Informasi Kontak</h3>
+
+                <div className="space-y-4">
+                  <div className="flex items-start group">
+                    <div className="bg-blue-900 p-3 rounded-xl text-white mr-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      <MapPin size={20} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-800 mb-1">Alamat</h4>
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        Veronica Residence 2<br />
+                        Jl. Mandor Dami 3 No.11b<br />
+                        Kalimulya, Depok<br />
+                        Jawa Barat 17530
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-1">Alamat</h4>
-                    <p className="text-gray-600">
-                      123 Manufacturing Way<br />
-                      Industrial Park, Suite 500<br />
-                      Chicago, IL 60601
-                    </p>
+
+                  <div className="flex items-start group">
+                    <div className="bg-green-600 p-3 rounded-xl text-white mr-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      <Phone size={20} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-800 mb-1">Telepon</h4>
+                      <p className="text-gray-600 text-sm">+62 896 3612 4857</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start group">
+                    <div className="bg-purple-600 p-3 rounded-xl text-white mr-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      <Mail size={20} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-800 mb-1">Email</h4>
+                      <p className="text-gray-600 text-sm">info@atigaaluminium.com</p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex items-start">
-                  <div className="bg-blue-100 p-3 rounded-full text-blue-600 mr-4">
-                    <Phone size={24} />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-1">Telepon</h4>
-                    <p className="text-gray-600">+1 (555) 123-4567</p>
-                    <p className="text-gray-600">+1 (555) 987-6543</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="bg-blue-100 p-3 rounded-full text-blue-600 mr-4">
-                    <Mail size={24} />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-1">Email</h4>
-                    <p className="text-gray-600">info@a3aluminum.com</p>
-                    <p className="text-gray-600">sales@a3aluminum.com</p>
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <h4 className="font-semibold text-gray-800 mb-3 text-center">Jam Operasional</h4>
+                  <div className="space-y-1 text-sm text-gray-600">
+                    <div className="flex justify-between">
+                      <span>Senin - Sabtu:</span>
+                      <span className="font-medium">08:00 - 17:00</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Minggu:</span>
+                      <span className="font-medium">08:00 - 15:00</span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <h4 className="font-medium text-gray-800 mb-4">Jam Operasional</h4>
-                <p className="text-gray-600 mb-2">Senin - Jumat: 08:00 - 17:00</p>
-                <p className="text-gray-600">Sabtu - Minggu: Tutup</p>
+              {/* Action Button */}
+              <div className="text-center mt-6">
+                <a
+                  href={googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                >
+                  <Map size={18} className="mr-2" />
+                  Buka di Google Maps
+                </a>
               </div>
             </div>
           </div>
 
-          <div className="lg:w-1/2">
-            <form
-              ref={formRef}
-              onSubmit={handleSubmit}
-              className="bg-white p-8 rounded-lg shadow-md"
-            >
-              <h3 className="text-2xl font-semibold text-gray-800 mb-6">Kirim Pesan</h3>
-
-              {formStatus.submitted && (
-                <div className={`mb-6 p-4 rounded-md ${formStatus.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                  {formStatus.message}
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label htmlFor="name" className="block text-gray-700 font-medium mb-2">Nama</label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <label htmlFor="company" className="block text-gray-700 font-medium mb-2">Perusahaan</label>
-                <input
-                  type="text"
-                  id="company"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-
-              <div className="mb-6">
-                <label htmlFor="subject" className="block text-gray-700 font-medium mb-2">Subjek</label>
-                <input
-                  type="text"
-                  id="subject"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  required
-                />
-              </div>
-
-              <div className="mb-6">
-                <label htmlFor="message" className="block text-gray-700 font-medium mb-2">Pesan</label>
-                <textarea
-                  id="message"
-                  rows={5}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  required
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                className="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition duration-300 w-full"
-              >
-                <Send size={18} className="mr-2" />
-                Kirim Pesan
-              </button>
-            </form>
+          {/* Map Overlay for Mobile Interaction */}
+          <div className="absolute bottom-4 right-4 z-10">
+            <div className="bg-black/70 text-white px-3 py-2 rounded-lg text-xs backdrop-blur-sm">
+              Koordinat: {latitude}, {longitude}
+            </div>
           </div>
         </div>
       </div>

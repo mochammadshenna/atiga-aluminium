@@ -1,4 +1,4 @@
-import { CircuitBoard, Menu, X } from 'lucide-react';
+import { Menu, SquareAsterisk, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 const Header: React.FC = () => {
@@ -18,49 +18,68 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const openWhatsApp = () => {
+    const phoneNumber = "6289636124857";
+    const message = encodeURIComponent("Halo, saya tertarik dengan produk A3 Aluminium dan ingin konsultasi gratis. Bisa minta informasi lebih lanjut?");
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const navigationItems = [
+    ['Beranda', 'home'],
+    ['Layanan', 'services'],
+    ['Produk', 'products'],
+    ['Galeri', 'gallery'],
+    ['Tentang', 'about'],
+    ['Kontak', 'contact']
+  ];
+
   return (
     <header
-      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm py-2' : 'bg-transparent py-4'
+      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg py-3' : 'bg-white/80 backdrop-blur-sm py-4'
         }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
+          {/* Logo */}
           <div className="flex items-center">
-            <CircuitBoard size={32} className="text-accent-primary mr-2" />
+            <div className="bg-blue-600 p-2 rounded-lg mr-3">
+              <SquareAsterisk size={28} className="text-white" />
+            </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-bold text-accent-secondary">
+              <span className="text-2xl font-bold text-gray-800">
                 A3
               </span>
-              <span className="text-sm text-saza-600 -mt-1">ALUMINUM</span>
+              <span className="text-xs text-blue-600 font-medium -mt-1 tracking-wider">
+                ALUMINIUM
+              </span>
             </div>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {[
-              ['Beranda', 'home'],
-              ['Layanan', 'services'],
-              ['Tentang', 'about'],
-              ['Produk', 'products'],
-              ['Kontak', 'contact']
-            ].map(([label, id]) => (
+            {navigationItems.map(([label, id]) => (
               <a
                 key={id}
                 href={`#${id}`}
-                className={`font-medium transition duration-300 hover:text-accent-primary ${isScrolled ? 'text-gray-800' : 'text-gray-800'
+                className={`font-medium transition-all duration-300 hover:text-blue-600 relative group ${isScrolled ? 'text-gray-700' : 'text-gray-800'
                   }`}
               >
                 {label}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </a>
             ))}
-            <button className="bg-accent-primary text-white px-6 py-3 rounded-full hover:bg-accent-primary/90 transition duration-300 transform hover:scale-105">
-              Dapatkan Penawaran
+            <button
+              onClick={openWhatsApp}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            >
+              Konsultasi Gratis
             </button>
           </nav>
 
           {/* Mobile Navigation Toggle */}
           <button
-            className="md:hidden text-gray-800 hover:text-accent-primary transition-colors"
+            className="md:hidden text-gray-800 hover:text-blue-600 transition-colors p-2"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -69,28 +88,28 @@ const Header: React.FC = () => {
 
         {/* Mobile Navigation Menu */}
         <div
-          className={`md:hidden absolute left-0 right-0 top-full bg-white/80 backdrop-blur-md shadow-lg transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 py-4' : 'max-h-0 overflow-hidden'
+          className={`md:hidden absolute left-0 right-0 top-full bg-white/95 backdrop-blur-md shadow-lg transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 py-6' : 'max-h-0 overflow-hidden'
             }`}
         >
           <div className="container mx-auto px-4 flex flex-col space-y-4">
-            {[
-              ['Beranda', 'home'],
-              ['Layanan', 'services'],
-              ['Tentang', 'about'],
-              ['Produk', 'products'],
-              ['Kontak', 'contact']
-            ].map(([label, id]) => (
+            {navigationItems.map(([label, id]) => (
               <a
                 key={id}
                 href={`#${id}`}
-                className="text-gray-800 hover:text-accent-primary font-medium py-2 transition-colors"
+                className="text-gray-700 hover:text-blue-600 font-medium py-3 transition-colors border-b border-gray-100 last:border-0"
                 onClick={() => setIsOpen(false)}
               >
                 {label}
               </a>
             ))}
-            <button className="bg-accent-primary text-white px-6 py-3 rounded-full hover:bg-accent-primary/90 transition duration-300 w-full">
-              Dapatkan Penawaran
+            <button
+              onClick={() => {
+                openWhatsApp();
+                setIsOpen(false);
+              }}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-full font-medium transition-all duration-300 mt-4"
+            >
+              Konsultasi Gratis
             </button>
           </div>
         </div>

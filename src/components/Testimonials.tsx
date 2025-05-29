@@ -77,21 +77,21 @@ const Testimonials: React.FC = () => {
 
   const testimonials = [
     {
-      quote: "AluminTech has been our go-to partner for aluminum extrusions for over a decade. Their quality and precision are unmatched in the industry.",
-      author: "David Wilson",
-      company: "Skyline Architects",
+      quote: "ATIGA Aluminium telah menjadi mitra utama kami untuk aluminium selama lebih dari 10 tahun. Kualitas dan ketepatan yang sangat baik.",
+      author: "Pak Budi",
+      company: "Rumah Pribadi",
       delay: 100
     },
     {
-      quote: "The custom profiles developed by AluminTech enabled us to solve complex design challenges in our latest aerospace project. Their engineering team is exceptional.",
-      author: "Sarah Johnson",
-      company: "AeroSystems International",
+      quote: "Profil kustom yang dihasilkan oleh ATIGA Aluminium membantu menyelesaikan tantangan desain rumah pribadi kami. Timnya sangat luar biasa.",
+      author: "Pak Andi",
+      company: "Rumah Pribadi",
       delay: 300
     },
     {
-      quote: "Working with AluminTech has significantly improved our manufacturing efficiency. Their components are consistently high-quality and delivered on time.",
-      author: "Michael Chang",
-      company: "Precision Dynamics",
+      quote: "Bekerja dengan ATIGA Aluminium memberikan pelayanan yang sangat baik. Kami sangat puas dengan kualitas dan hasil yang diberikan.",
+      author: "Pak Budi",
+      company: "Rumah Pribadi",
       delay: 500
     }
   ];

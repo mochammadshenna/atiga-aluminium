@@ -1,4 +1,4 @@
-import { BarChart, CircleDot, Droplets, Factory, Layers, Shield } from 'lucide-react';
+import { Building, DoorClosed, Grid2X2 } from 'lucide-react';
 import React, { useEffect, useRef } from 'react';
 
 interface ServiceProps {
@@ -38,13 +38,23 @@ const ServiceCard: React.FC<ServiceProps> = ({ title, description, icon, delay }
   return (
     <div
       ref={cardRef}
-      className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-500 transform opacity-0 translate-y-10 hover:-translate-y-1"
+      className="relative bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform opacity-0 translate-y-10 hover:-translate-y-2 overflow-hidden group"
     >
-      <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 text-blue-600">
-        {icon}
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-blue-600/10 group-hover:from-blue-500/10 group-hover:to-blue-600/15 transition-all duration-300"></div>
+
+      <div className="relative z-10">
+        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-6 text-white shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+          <div className="text-white">
+            {icon}
+          </div>
+        </div>
+        <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-blue-700 transition-colors duration-300">{title}</h3>
+        <p className="text-gray-600 leading-relaxed">{description}</p>
       </div>
-      <h3 className="text-xl font-semibold text-gray-800 mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
+
+      {/* Decorative corner */}
+      <div className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full opacity-20 transform group-hover:scale-125 transition-transform duration-300"></div>
     </div>
   );
 };
@@ -76,58 +86,54 @@ const Services: React.FC = () => {
 
   const services = [
     {
-      title: "Precision Extrusion",
-      description: "Custom aluminum profiles with tight tolerances for complex applications.",
-      icon: <Layers size={32} />,
+      title: "Pemasangan Jendela Aluminium",
+      description: "Pemasangan jendela aluminium dengan berbagai model dan sistem, dari swing door hingga folding door dengan kualitas terbaik.",
+      icon: <Grid2X2 size={32} className="text-white" />,
       delay: 100
     },
     {
-      title: "Surface Finishing",
-      description: "Premium anodizing, powder coating, and polishing services for all aluminum products.",
-      icon: <Droplets size={32} />,
+      title: "Pemasangan Pintu Aluminium",
+      description: "Pemasangan pintu aluminium dengan berbagai model dan sistem, dari swing door hingga folding door dengan desain modern.",
+      icon: <DoorClosed size={32} className="text-white" />,
       delay: 200
     },
     {
-      title: "Quality Assurance",
-      description: "Rigorous testing and inspection to ensure consistent quality and durability.",
-      icon: <Shield size={32} />,
+      title: "Pemasangan Custom Aluminium",
+      description: "Pemasangan custom aluminium dengan berbagai model dan sistem sesuai kebutuhan spesifik Anda dengan presisi tinggi.",
+      icon: <Building size={32} className="text-white" />,
       delay: 300
-    },
-    {
-      title: "Custom Fabrication",
-      description: "Tailored aluminum components designed to your exact specifications.",
-      icon: <Factory size={32} />,
-      delay: 400
-    },
-    {
-      title: "Alloy Development",
-      description: "Specialized aluminum alloys developed for specific industry applications.",
-      icon: <CircleDot size={32} />,
-      delay: 500
-    },
-    {
-      title: "Performance Analysis",
-      description: "Comprehensive testing to validate performance in real-world conditions.",
-      icon: <BarChart size={32} />,
-      delay: 600
     }
   ];
 
   return (
-    <div id="services" className="py-16 md:py-24 bg-gray-50">
+    <div id="services" className="relative py-16 md:py-24 overflow-hidden">
+      {/* Background Image with Blur */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url('/images/background-image-layanan-kami.jpg')`,
+          filter: 'blur(1px)',
+          transform: 'scale(1.05)'
+        }}
+      ></div>
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-white/90"></div>
+
       <div
         ref={sectionRef}
-        className="container mx-auto px-4 transition-opacity duration-1000 opacity-0"
+        className="relative z-10 container mx-auto px-4 transition-opacity duration-1000 opacity-0"
       >
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Layanan Kami</h2>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">Layanan Kami</h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-8"></div>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Kami menyediakan solusi pembuatan aluminium berkualitas tinggi dengan presisi dan keunggulan
+            yang telah terbukti selama bertahun-tahun
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {services.map((service, index) => (
             <ServiceCard
               key={index}
