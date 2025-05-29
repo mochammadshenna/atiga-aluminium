@@ -256,9 +256,9 @@ const Products: React.FC = () => {
           <div className="text-center mt-12">
             <button
               onClick={loadMoreProducts}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
-              Lihat Lebih Banyak ({filteredProducts.length - visibleProducts} produk lainnya)
+              Lihat Lebih Banyak Produk
             </button>
           </div>
         )}

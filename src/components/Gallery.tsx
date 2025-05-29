@@ -282,11 +282,11 @@ const Gallery: React.FC = () => {
         </div>
 
         {/* Auto-scroll indicator */}
-        <div className="text-center mt-4">
+        {/* <div className="text-center mt-4">
           <p className="text-sm text-gray-500">
             Galeri berputar otomatis • Hover untuk menghentikan
           </p>
-        </div>
+        </div> */}
       </div>
 
       {/* Modal for Image Detail */}

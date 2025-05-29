@@ -78,7 +78,7 @@ const Testimonials: React.FC = () => {
   const testimonials = [
     {
       quote: "ATIGA Aluminium telah menjadi mitra utama kami untuk aluminium selama lebih dari 10 tahun. Kualitas dan ketepatan yang sangat baik.",
-      author: "Pak Budi",
+      author: "Pak Dwi",
       company: "Rumah Pribadi",
       delay: 100
     },

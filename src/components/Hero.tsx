@@ -108,8 +108,8 @@ const Hero: React.FC = () => {
                 </h1>
 
                 <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
-                  A3 Aluminium menghadirkan jendela, pintu, dan kaca tempered berkualitas tinggi
-                  dengan teknologi modern dan desain yang elegan untuk kebutuhan Anda.
+                  ATIGA Aluminium menghadirkan jendela, pintu, dan kaca berkualitas tinggi
+                  dengan produk unggulan, modern dan desain yang elegan untuk kebutuhan Anda.
                 </p>
               </div>
 
@@ -166,7 +166,7 @@ const Hero: React.FC = () => {
                     </div>
                     <div>
                       <div className="font-semibold text-gray-800">Berkualitas Tinggi</div>
-                      <div className="text-gray-600 text-sm">Garansi Resmi</div>
+                      <div className="text-gray-600 text-sm">Produk Unggulan</div>
                     </div>
                   </div>
                 </div>
