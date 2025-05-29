@@ -34,7 +34,7 @@ export const products: Product[] = [
       material: "Aluminium 6063-T5",
       thickness: "1.4mm - 2.0mm",
       color: ["Putih", "Coklat", "Hitam", "Silver"],
-      warranty: "10 tahun"
+      // warranty: "10 tahun"
     }
   },
   {
@@ -56,7 +56,7 @@ export const products: Product[] = [
       material: "Aluminium 6063-T5",
       thickness: "1.6mm - 2.0mm",
       color: ["Putih", "Coklat", "Silver", "Bronze"],
-      warranty: "10 tahun"
+      // warranty: "10 tahun"
     }
   },
   {
@@ -78,7 +78,7 @@ export const products: Product[] = [
       material: "Aluminium Profile",
       thickness: "1.6mm",
       color: ["Silver", "Coklat", "Hitam"],
-      warranty: "8 tahun"
+      // warranty: "8 tahun"
     }
   },
   {
@@ -100,7 +100,7 @@ export const products: Product[] = [
       material: "Aluminium Premium",
       thickness: "2.0mm",
       color: ["Putih", "Coklat", "Charcoal"],
-      warranty: "12 tahun"
+      // warranty: "12 tahun"
     }
   },
   {
@@ -122,7 +122,7 @@ export const products: Product[] = [
       material: "Aluminium Executive",
       thickness: "2.2mm",
       color: ["Silver", "Bronze", "Black"],
-      warranty: "15 tahun"
+      // warranty: "15 tahun"
     }
   },
   {
@@ -144,7 +144,7 @@ export const products: Product[] = [
       material: "Aluminium Deluxe",
       thickness: "2.5mm",
       color: ["Custom Colors"],
-      warranty: "20 tahun"
+      // warranty: "20 tahun"
     }
   },
   {
@@ -166,7 +166,7 @@ export const products: Product[] = [
       material: "Kaca Tempered",
       thickness: "8mm - 12mm",
       color: ["Clear", "Bronze", "Blue"],
-      warranty: "5 tahun"
+      // warranty: "5 tahun"
     }
   },
   {
@@ -188,7 +188,7 @@ export const products: Product[] = [
       material: "Laminated Glass",
       thickness: "6mm + 6mm",
       color: ["Clear", "Tinted"],
-      warranty: "7 tahun"
+      // warranty: "7 tahun"
     }
   },
   {
@@ -210,7 +210,7 @@ export const products: Product[] = [
       material: "High Quality Glass",
       thickness: "5mm - 19mm",
       color: ["Clear", "Tinted", "Reflective"],
-      warranty: "5 tahun"
+      // warranty: "5 tahun"
     }
   },
   {
@@ -232,7 +232,7 @@ export const products: Product[] = [
       material: "Premium Glass",
       thickness: "6mm - 25mm",
       color: ["Multiple Options"],
-      warranty: "10 tahun"
+      // warranty: "10 tahun"
     }
   },
   {
@@ -254,7 +254,7 @@ export const products: Product[] = [
       material: "Custom Aluminium",
       thickness: "Sesuai kebutuhan",
       color: ["Custom RAL Colors"],
-      warranty: "5-15 tahun"
+      // warranty: "5-15 tahun"
     }
   },
   {
@@ -276,7 +276,7 @@ export const products: Product[] = [
       material: "Aluminium Premium 6063-T5",
       thickness: "2.0mm - 2.5mm",
       color: ["Putih Elegant", "Coklat Mewah", "Hitam Premium", "Silver Elite"],
-      warranty: "15 tahun"
+      // warranty: "15 tahun"
     }
   }
 ];

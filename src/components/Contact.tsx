@@ -45,8 +45,8 @@ const Contact: React.FC = () => {
           </p> */}
         </div>
 
-        {/* Contact Layout with Contact Info Above Map */}
-        <div className="relative">
+        {/* Desktop Layout - Contact Info Above Map */}
+        <div className="hidden md:block relative">
           {/* Background Map Container */}
           <div className="w-full h-[600px] rounded-2xl overflow-hidden shadow-xl">
             <iframe
@@ -140,6 +140,92 @@ const Contact: React.FC = () => {
             <div className="bg-black/70 text-white px-3 py-2 rounded-lg text-xs backdrop-blur-sm">
               Koordinat: {latitude}, {longitude}
             </div>
+          </div>
+        </div>
+
+        {/* Mobile Layout - Contact Info Top, Map Bottom */}
+        <div className="md:hidden space-y-8">
+          {/* Contact Information */}
+          <div className="bg-white rounded-2xl shadow-lg p-6">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">Informasi Kontak</h3>
+
+            <div className="space-y-4">
+              <div className="flex items-start">
+                <div className="bg-blue-900 p-3 rounded-xl text-white mr-4 shadow-lg">
+                  <MapPin size={18} />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-800 mb-1">Alamat</h4>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    Veronica Residence 2<br />
+                    Jl. Mandor Dami 3 No.11b<br />
+                    Kalimulya, Depok<br />
+                    Jawa Barat 17530
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <div className="bg-green-600 p-3 rounded-xl text-white mr-4 shadow-lg">
+                  <Phone size={18} />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-800 mb-1">Telepon</h4>
+                  <p className="text-gray-600 text-sm">+62 896 3612 4857</p>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <div className="bg-purple-600 p-3 rounded-xl text-white mr-4 shadow-lg">
+                  <Mail size={18} />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-800 mb-1">Email</h4>
+                  <p className="text-gray-600 text-sm">info@atigaaluminium.com</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <h4 className="font-semibold text-gray-800 mb-3 text-center">Jam Operasional</h4>
+              <div className="space-y-1 text-sm text-gray-600">
+                <div className="flex justify-between">
+                  <span>Senin - Sabtu:</span>
+                  <span className="font-medium">08:00 - 17:00</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Minggu:</span>
+                  <span className="font-medium">Tutup</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center mt-6">
+              <a
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg"
+              >
+                <Map size={18} className="mr-2" />
+                Buka di Google Maps
+              </a>
+            </div>
+          </div>
+
+          {/* Map */}
+          <div className="w-full h-[400px] rounded-2xl overflow-hidden shadow-xl">
+            <iframe
+              src={embedUrl}
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Lokasi ATIGA Aluminium"
+              className="w-full h-full"
+            ></iframe>
           </div>
         </div>
       </div>

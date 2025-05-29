@@ -94,7 +94,8 @@ const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
       {/* Main Button */}
       <button
         onClick={directWhatsApp}
-        className="w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform hover:scale-110 group"
+        onMouseEnter={() => setIsOpen(false)}
+        className="w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform hover:scale-110 group relative"
         aria-label="Chat WhatsApp"
       >
         <MessageCircle size={24} />
@@ -108,10 +109,10 @@ const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
           {/* Tooltip arrow */}
           <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black/80"></div>
         </div>
-      </button>
 
-      {/* Pulse Animation */}
-      <div className="absolute inset-0 w-14 h-14 bg-green-500 rounded-full animate-ping opacity-30"></div>
+        {/* Pulse Animation */}
+        <div className="absolute inset-0 w-14 h-14 bg-green-500 rounded-full animate-ping opacity-30 pointer-events-none"></div>
+      </button>
     </div>
   );
 };

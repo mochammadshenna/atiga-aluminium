@@ -175,7 +175,8 @@ const About: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Desktop Grid */}
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 gap-6">
             {features.map((feature, index) => (
               <FeatureCard
                 key={index}
@@ -185,6 +186,29 @@ const About: React.FC = () => {
                 delay={feature.delay}
               />
             ))}
+          </div>
+
+          {/* Mobile Horizontal Scroll */}
+          <div className="md:hidden">
+            <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 px-2">
+              {features.map((feature, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-80 bg-gray-50 p-6 rounded-lg transition-all duration-700 transform hover:bg-gray-100"
+                >
+                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 flex-shrink-0 mb-4">
+                    {feature.icon}
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-800 mb-2">{feature.title}</h4>
+                    <p className="text-gray-600 text-sm leading-relaxed">{feature.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="text-center mt-4">
+              <p className="text-sm text-gray-500">← Geser untuk melihat lebih banyak →</p>
+            </div>
           </div>
         </div>
       </div>

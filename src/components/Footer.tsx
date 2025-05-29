@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
                 </span>
               </div>
             </div>
-            <p className="text-gray-400 mb-6 leading-relaxed whitespace-pre-wrap">
+            <p className="text-gray-400 mb-6 leading-relaxed">
               Memberikan pelayanan terbaik dengan produk unggul dan berkualitas.
             </p>
             <div className="flex space-x-4">

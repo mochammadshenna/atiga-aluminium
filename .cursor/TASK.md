@@ -204,9 +204,15 @@
 
 ### UI/UX Enhancements
 
-- [x] **Hero Image**: Smart landscape/portrait detection with responsive object fitting
+- [x] **Hero Section**:
+  - [x] Smart landscape/portrait detection with responsive object fitting
+  - [x] Frameless hero image design (removed rounded corners and shadows)
+  - [x] Improved mobile layout with better image positioning
+  - [x] WhatsApp integration for CTA buttons
+  - [x] Better text scaling for mobile devices
+  - [x] Optimized button sizes for touch interaction
 - [x] **Services Icons**: Fixed icon colors for proper white visibility
-- [x] **Products Section**: 
+- [x] **Products Section**:
   - [x] Removed "Lihat Detail" and "Konsultasi" buttons
   - [x] Added full-screen image popup functionality
   - [x] Updated with 11 high-quality local product images
@@ -248,5 +254,32 @@
 ### Contact Information
 
 - [x] **WhatsApp**: +62 896-3612-4857
-- [x] **Email**: info@atigaaluminium.com
+- [x] **Email**: <info@atigaaluminium.com>
 - [x] **Address**: Veronica Residence 2, Jl. Mandor Dami 3 No.11b, Kalimulya, Depok, Jawa Barat 17530
+
+### Mobile Responsiveness Improvements
+
+- [x] **Mobile-First Design**:
+  - [x] Improved viewport meta tag configuration
+  - [x] Touch-friendly button sizes (minimum 44px)
+  - [x] Optimized font sizes for mobile devices
+  - [x] Better spacing and padding for small screens
+  - [x] Hero image reverted to framed design that properly fits image without cropping
+  - [x] Products section shows 2 columns instead of 1 on mobile
+  - [x] About section features converted to horizontal scrolling cards on mobile
+  - [x] Testimonials section converted to horizontal scrolling cards on mobile
+  - [x] Contact section redesigned with info at top and map at bottom for mobile
+  - [x] Footer text wrapping fixed for mobile devices
+- [x] **Header Navigation**:
+  - [x] Improved mobile menu layout
+  - [x] Touch-friendly navigation buttons
+  - [x] Better responsive spacing
+- [x] **CSS Improvements**:
+  - [x] Added mobile-first CSS utilities
+  - [x] Prevented horizontal scroll on mobile
+  - [x] Improved font smoothing for mobile devices
+  - [x] iOS input zoom prevention
+- [x] **FloatingWhatsApp Button**:
+  - [x] Fixed direct WhatsApp functionality to open in new tab properly
+  - [x] Added tooltip with better mobile interaction
+  - [x] Improved button positioning and animation

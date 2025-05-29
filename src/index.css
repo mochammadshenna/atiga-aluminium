@@ -1,3 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Mobile-first improvements */
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+}
+
+/* Mobile touch improvements */
+@layer utilities {
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Touch-friendly buttons */
+    .touch-friendly {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Prevent zoom on input focus (iOS) */
+    @media screen and (max-width: 768px) {
+
+        input,
+        select,
+        textarea {
+            font-size: 16px !important;
+        }
+    }
+}

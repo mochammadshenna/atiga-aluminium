@@ -565,7 +565,10 @@ For technical support or content updates:
 - **Hero Section**:
   - Smart landscape/portrait image detection
   - Responsive object fitting for all image types
+  - **Frameless hero image design** (removed rounded corners and shadows)
+  - **Improved mobile layout** with better image positioning and text scaling
   - WhatsApp integration for CTA buttons
+  - **Touch-friendly button sizes** for better mobile interaction
 - **Services Section**:
   - Fixed icon colors for proper white visibility
   - Enhanced background integration
@@ -590,6 +593,44 @@ For technical support or content updates:
 - **Image Management**: All product images stored locally with high quality
 - **User Experience**: Auto-scroll gallery with intuitive controls
 - **Responsive Design**: Smart image handling for different aspect ratios
+
+### Mobile Responsiveness Enhancements
+
+- **Mobile-First Approach**:
+  - **Hero image reverted to framed design** that properly fits image without cropping using object-contain
+  - Touch-friendly button sizes (minimum 44px for all interactive elements)
+  - Optimized font sizes that scale properly on mobile devices
+  - Better spacing and padding adapted for small screens
+- **Products Section**:
+  - **Shows 2 columns on mobile** instead of 1 for better product visibility
+  - Improved card sizing and spacing for mobile interaction
+- **About Section (Mengapa Memilih ATIGA)**:
+  - **Features converted to horizontal scrolling cards** on mobile with swipe gestures
+  - Desktop maintains grid layout while mobile uses scrollable cards
+- **Testimonials Section**:
+  - **Converted to horizontal scrolling cards** on mobile for better user experience
+  - Smooth scrolling with visual indicators
+- **Contact Section**:
+  - **Redesigned mobile layout** with contact info at top and map at bottom
+  - Both sections contained within main container for consistent spacing
+  - Separate layouts for desktop (floating info over map) and mobile (stacked)
+- **Header & Navigation**:
+  - Improved mobile menu layout with better touch targets
+  - Responsive logo and navigation spacing
+  - Touch-friendly hamburger menu with proper sizing
+- **FloatingWhatsApp Button**:
+  - **Fixed direct WhatsApp functionality** to properly open in new tab
+  - Enhanced tooltip and hover interactions
+  - Improved mobile responsiveness and touch handling
+- **Footer**:
+  - **Fixed text wrapping** for better mobile readability
+  - Proper responsive layout for all footer content
+- **CSS & Technical**:
+  - Added mobile-first CSS utilities in index.css
+  - Prevented horizontal scroll issues on mobile devices
+  - Improved font smoothing for better readability
+  - iOS-specific input zoom prevention
+  - Proper viewport meta tag configuration
 
 ### Product Images Inventory
 

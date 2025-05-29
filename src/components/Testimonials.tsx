@@ -110,7 +110,8 @@ const Testimonials: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Desktop Grid */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
             <TestimonialCard
               key={index}
@@ -120,6 +121,28 @@ const Testimonials: React.FC = () => {
               delay={testimonial.delay}
             />
           ))}
+        </div>
+
+        {/* Mobile Horizontal Scroll */}
+        <div className="md:hidden">
+          <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 px-2">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 w-80 bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-500"
+              >
+                <Quote size={32} className="text-blue-200 mb-4" />
+                <p className="text-gray-600 italic mb-6 leading-relaxed">{testimonial.quote}</p>
+                <div>
+                  <p className="font-semibold text-gray-800">{testimonial.author}</p>
+                  <p className="text-gray-500 text-sm">{testimonial.company}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-4">
+            <p className="text-sm text-gray-500">← Geser untuk melihat testimoni lainnya →</p>
+          </div>
         </div>
       </div>
     </div>

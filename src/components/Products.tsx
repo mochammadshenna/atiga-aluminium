@@ -100,6 +100,7 @@ const Products: React.FC = () => {
   const closeImagePopup = () => {
     setSelectedImage(null);
     document.body.style.overflow = 'auto';
+    document.body.style.pointerEvents = 'none'; // Reset pointer events
   };
 
   // WhatsApp function
@@ -175,7 +176,7 @@ const Products: React.FC = () => {
         {/* Products Grid */}
         <div
           ref={gridRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8"
         >
           {filteredProducts.slice(0, visibleProducts).map((product) => (
             <div

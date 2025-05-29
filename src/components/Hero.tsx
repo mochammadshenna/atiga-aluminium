@@ -87,59 +87,59 @@ const Hero: React.FC = () => {
       ></div>
 
       {/* Main hero section */}
-      <div className="flex-1 flex items-center relative z-10">
+      <div className="flex-1 flex items-center relative z-10 py-8 md:py-0">
         <div className="w-full">
-          <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+          <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Left side content */}
-            <div ref={heroRef} className="opacity-0 space-y-8">
+            <div ref={heroRef} className="opacity-0 space-y-6 md:space-y-8 order-2 md:order-1">
               {/* Badge */}
-              <div className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
-                <Award size={16} className="mr-2" />
+              <div className="inline-flex items-center bg-blue-100 text-blue-800 px-3 py-2 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium">
+                <Award size={14} className="mr-2 md:w-4 md:h-4" />
                 18+ Tahun Pengalaman Terpercaya
               </div>
 
-              <div className="space-y-6">
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">
+              <div className="space-y-4 md:space-y-6">
+                <h1 className="text-3xl md:text-4xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight">
                   Solusi
                   <span className="text-blue-600 bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
                     {" "}Aluminium{" "}
                   </span>
-                  Terdepan
+                  Berkualitas
                 </h1>
 
-                <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
+                <p className="text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed max-w-lg">
                   ATIGA Aluminium menghadirkan jendela, pintu, dan kaca berkualitas tinggi
                   dengan produk unggulan, modern dan desain yang elegan untuk kebutuhan Anda.
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
                 <button
                   onClick={scrollToGallery}
-                  className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center"
+                  className="group bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 md:px-8 md:py-4 rounded-full text-base md:text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center"
                 >
                   Lihat Galeri Proyek
-                  <ArrowRight size={20} className="ml-4 group-hover:translate-x-1 transition-transform duration-300" />
+                  <ArrowRight size={18} className="ml-3 md:ml-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </button>
                 <button
                   onClick={openWhatsApp}
-                  className="group bg-white border-2 border-gray-300 hover:border-blue-600 text-gray-700 hover:text-blue-600 px-8 py-4 rounded-full text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center"
+                  className="group bg-white border-2 border-gray-300 hover:border-blue-600 text-gray-700 hover:text-blue-600 px-6 py-3 md:px-8 md:py-4 rounded-full text-base md:text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center"
                 >
                   Konsultasi Gratis
-                  <Phone size={20} className="ml-4 group-hover:rotate-12 transition-transform duration-300" />
+                  <Phone size={18} className="ml-3 md:ml-4 md:w-5 md:h-5 group-hover:rotate-12 transition-transform duration-300" />
                 </button>
               </div>
             </div>
 
-            {/* Right side image - Improved landscape layout */}
-            <div className="relative">
-              <div className="relative h-[500px] md:h-[600px] rounded-3xl overflow-hidden shadow-2xl">
-                {/* Hero Image with proper landscape fitting */}
+            {/* Right side image - Frame that fits image properly */}
+            <div className="relative order-1 md:order-2">
+              <div className="relative h-[400px] md:h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-xl">
+                {/* Hero Image with proper frame fitting */}
                 <img
                   ref={imageRef}
                   src="/images/hero-image.jpg"
                   alt="A3 Aluminium - Produk Berkualitas Tinggi"
-                  className="w-full h-full object-cover opacity-0 transition-opacity duration-800"
+                  className="w-full h-full object-contain bg-gray-50 opacity-0 transition-opacity duration-800"
                   style={{ objectPosition: 'center center' }}
                   onLoad={handleImageLoad}
                   onError={() => console.log('Image failed to load')}
@@ -155,24 +155,21 @@ const Hero: React.FC = () => {
                   </div>
                 )}
 
-                {/* Gradient overlay for better text readability */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-transparent"></div>
-
-                {/* Quality Badge */}
-                <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-gray-100">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                      <Shield size={20} className="text-green-600" />
+                {/* Quality Badge - positioned for framed design */}
+                <div className="absolute top-4 right-4 md:top-6 md:right-6 bg-white/95 backdrop-blur-sm p-3 md:p-4 rounded-xl shadow-lg border border-gray-100">
+                  <div className="flex items-center space-x-2 md:space-x-3">
+                    <div className="w-8 h-8 md:w-10 md:h-10 bg-green-100 rounded-full flex items-center justify-center">
+                      <Shield size={16} className="md:w-5 md:h-5 text-green-600" />
                     </div>
                     <div>
-                      <div className="font-semibold text-gray-800">Berkualitas Tinggi</div>
-                      <div className="text-gray-600 text-sm">Produk Unggulan</div>
+                      <div className="font-semibold text-gray-800 text-sm md:text-base">Berkualitas Tinggi</div>
+                      <div className="text-gray-600 text-xs md:text-sm">Produk Unggulan</div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Decorative elements */}
+              {/* Decorative elements for framed design */}
               <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-blue-600/20 rounded-full blur-2xl"></div>
               <div className="absolute -top-6 -right-6 w-32 h-32 bg-purple-600/10 rounded-full blur-2xl"></div>
             </div>
@@ -182,23 +179,11 @@ const Hero: React.FC = () => {
 
       {/* Scroll indicator */}
       <div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce z-10"
+        className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce z-10"
         onClick={scrollToNextSection}
       >
-        <div className="bg-white/80 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300">
-          <ChevronDown size={24} className="text-blue-600" />
-        </div>
-      </div>
-
-      {/* Mobile Image */}
-      <div className="md:hidden mt-8 px-4">
-        <div className="relative h-64 rounded-2xl overflow-hidden shadow-lg">
-          <img
-            src="/images/hero-image.jpg"
-            alt="A3 Aluminium Products"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+        <div className="bg-white/80 backdrop-blur-sm p-2 md:p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300">
+          <ChevronDown size={20} className="md:w-6 md:h-6 text-blue-600" />
         </div>
       </div>
     </div>
