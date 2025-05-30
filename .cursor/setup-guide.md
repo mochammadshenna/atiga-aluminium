@@ -837,7 +837,7 @@ http://localhost:5173/scripts/svg-to-png-converter.html
   - **Hero Section Mobile Fixes**:
     - Added proper top padding (`pt-20 md:pt-24`) to account for fixed navbar height
     - Adjusted hero image height from 300px to 280px on mobile for better proportion
-    - Improved ChevronDown positioning (`bottom-6` instead of `bottom-4`) for better visibility
+    - Improved ChevronDown positioning (`bottom-20` on mobile, `bottom-8` on desktop) positioned above button area
     - Fixed badge and content positioning to prevent navbar cropping
     - Enhanced mobile layout with proper spacing from navbar (80px mobile, 96px desktop)
   - **Hero image frame redesigned** to be properly landscape/horizontal oriented (600-700px wide on desktop) with object-cover for better presentation

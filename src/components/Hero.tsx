@@ -179,7 +179,7 @@ const Hero: React.FC = () => {
 
       {/* Scroll indicator - Improved mobile positioning */}
       <div
-        className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce z-10"
+        className="absolute bottom-20 md:bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce z-10"
         onClick={scrollToNextSection}
       >
         <div className="bg-white/80 backdrop-blur-sm p-2 md:p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300">
