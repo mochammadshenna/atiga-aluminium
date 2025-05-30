@@ -772,7 +772,7 @@ export default {
 // WhatsApp utility function
 export const openWhatsApp = (customMessage?: string) => {
   const phoneNumber = "6289636124857";
-  const defaultMessage = "Halo *Pak Uki*, saya tertarik dengan produk A3 Aluminium dan ingin konsultasi gratis. Bisa minta informasi lebih lanjut?";
+  const defaultMessage = "Halo *Pak Uki*, saya tertarik untuk pemasangan Aluminium dan ingin konsultasi lebih lanjut. Terima kasih.";
   const message = encodeURIComponent(customMessage || defaultMessage);
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
   window.open(whatsappUrl, '_blank');

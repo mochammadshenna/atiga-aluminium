@@ -8,7 +8,7 @@ interface FloatingWhatsAppProps {
 
 const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({
   phoneNumber = "6289636124857",
-  message = "Halo *Pak Uki*, saya tertarik dengan produk A3 Aluminium. Bisa minta informasi lebih lanjut?"
+  message = "Halo *Pak Uki*, saya tertarik untuk pemasangan Aluminium dan ingin konsultasi lebih lanjut. Terima kasih."
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
