@@ -89,7 +89,7 @@ const Hero: React.FC = () => {
       {/* Main hero section - Added proper top padding for navbar */}
       <div className="flex-1 flex items-center relative z-10 pt-20 md:pt-24 pb-16 md:pb-20">
         <div className="w-full">
-          <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+          <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center relative">
             {/* Left side content */}
             <div ref={heroRef} className="opacity-0 space-y-6 md:space-y-8 order-2 md:order-1">
               {/* Badge */}
@@ -173,17 +173,31 @@ const Hero: React.FC = () => {
               <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-blue-600/20 rounded-full blur-2xl"></div>
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-purple-600/10 rounded-full blur-2xl"></div>
             </div>
+
+            {/* Scroll indicator - Perfectly centered on all mobile devices */}
+            <div
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:hidden cursor-pointer z-20"
+              onClick={scrollToNextSection}
+              style={{
+                marginLeft: '0px',
+                animation: 'bounce 2s infinite, pulse 3s infinite'
+              }}
+            >
+              <div className="bg-blue-300/45 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-blue-350/45 active:bg-blue-400 transition-all duration-300 border-2 border-white/30 hover:border-white/50">
+                <ChevronDown size={22} className="text-blue-700 drop-shadow-sm" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll indicator - Improved mobile positioning */}
+      {/* Scroll indicator for desktop only */}
       <div
-        className="absolute bottom-20 md:bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce z-10"
+        className="hidden md:block absolute bottom-6 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce z-10"
         onClick={scrollToNextSection}
       >
-        <div className="bg-white/80 backdrop-blur-sm p-2 md:p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300">
-          <ChevronDown size={20} className="md:w-6 md:h-6 text-blue-600" />
+        <div className="bg-blue-300/45 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-blue-350/45 active:bg-blue-400 transition-all duration-300 border-2 border-white/30 hover:border-white/50">
+          <ChevronDown size={24} className="text-blue-700 drop-shadow-sm" />
         </div>
       </div>
     </div>
