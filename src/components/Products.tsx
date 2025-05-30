@@ -1,5 +1,5 @@
 import { gsap } from 'gsap';
-import { DoorOpen, Eye, Grid3X3, MoveHorizontal, Settings, Sparkles, Square, X } from 'lucide-react';
+import { ArrowLeft, DoorOpen, Eye, Grid3X3, MoveHorizontal, Settings, Sparkles, Square, X } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { productCategories, products } from '../data/products';
 
@@ -147,8 +147,7 @@ const Products: React.FC = () => {
           </h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Jelajahi koleksi lengkap produk aluminium berkualitas tinggi untuk berbagai kebutuhan
-            hunian dan komersial Anda
+            Jelajahi produk aluminium berkualitas untuk berbagai kebutuhan hunian Anda
           </p>
         </div>
 
@@ -251,11 +250,22 @@ const Products: React.FC = () => {
               </div>
             ))}
           </div>
+          {/* Load More Button */}
+          {showLoadMore && filteredProducts.length > 0 && (
+            <div className="text-center mt-12">
+              <button
+                onClick={loadMoreProducts}
+                className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              >
+                Lihat Lebih Banyak Produk
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Products Horizontal Scroll - Mobile */}
         <div className="md:hidden">
-          <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 px-2">
+          <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 px-2" id="products-container">
             {filteredProducts.slice(0, visibleProducts).map((product) => (
               <div
                 key={product.id}
@@ -326,22 +336,17 @@ const Products: React.FC = () => {
               </div>
             ))}
           </div>
-          <div className="text-center mt-4">
-            <p className="text-sm text-gray-500">← Geser untuk melihat produk lainnya →</p>
-          </div>
-        </div>
-
-        {/* Load More Button */}
-        {showLoadMore && filteredProducts.length > 0 && (
-          <div className="text-center mt-12">
-            <button
-              onClick={loadMoreProducts}
-              className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              Lihat Lebih Banyak Produk
+          <div className="flex justify-start mt-4">
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-full" onClick={() => {
+              const container = document.getElementById('products-container');
+              if (container) {
+                container.scrollLeft += 100;
+              }
+            }}>
+              <ArrowLeft size={16} />
             </button>
           </div>
-        )}
+        </div>
 
         {/* Empty State */}
         {filteredProducts.length === 0 && (
@@ -372,16 +377,16 @@ const Products: React.FC = () => {
               <h3 className="text-4xl md:text-5xl font-bold text-blue-600 mb-4">
                 Butuh Produk Custom?
               </h3>
-              <p className="text-blue-600 mb-8 max-w-2xl mx-auto">
-                Tim ahli kami siap membantu merancang solusi aluminium sesuai kebutuhan spesifik Anda.
-                Konsultasi gratis dan estimasi harga tersedia.
+              <p className="text-blue-600 mb-8 max-w-3xl mx-auto">
+                Kami siap membantu merancang solusi pemasangan aluminium sesuai kebutuhan spesifik Anda.
+                Konsultasi gratis dan estimasi harga terjangkau.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={openWhatsApp}
                   className="bg-white text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-4 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
-                  Konsultasi Gratis
+                  Pesan Sekarang
                 </button>
               </div>
             </div>

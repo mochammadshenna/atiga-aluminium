@@ -1,4 +1,4 @@
-import { CheckCircle, ShieldCheck, Target, Wrench } from 'lucide-react';
+import { ArrowRight, BookmarkCheck, CheckCircle, Target, Wrench } from 'lucide-react';
 import React, { useEffect, useRef } from 'react';
 
 interface FeatureProps {
@@ -88,7 +88,7 @@ const About: React.FC = () => {
     {
       title: "Kualitas Terjamin",
       description: "Menggunakan material aluminium premium dengan standar kualitas internasional untuk hasil yang tahan lama.",
-      icon: <ShieldCheck size={24} />,
+      icon: <BookmarkCheck size={24} />,
       delay: 100
     },
     // {
@@ -132,7 +132,7 @@ const About: React.FC = () => {
         >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Tentang Kami</h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-6xl mx-auto">
             Menghadirkan solusi aluminium terbaik dengan dedikasi penuh untuk kualitas dan kepuasan pelanggan
           </p>
         </div>
@@ -140,19 +140,22 @@ const About: React.FC = () => {
         <div className="flex flex-col lg:flex-row gap-12 items-center mb-16">
           <div
             ref={contentRef}
-            className="lg:w-1/2 transition-opacity duration-1000 opacity-0"
+            className="lg:w-1/2 transition-all duration-1000 opacity-0"
+            style={{
+              animation: 'fadeIn 1s ease-in-out',
+              animationFillMode: 'forwards'
+            }}
           >
             <h3 className="text-2xl font-semibold text-gray-800 mb-4">Keunggulan dalam Pembuatan Aluminium</h3>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              Didirikan pada tahun 2007, <b>ATIGA Aluminium</b> telah menjadi pemimpin dalam pembuatan aluminium selama lebih dari tiga dekade.
-              Komitmen kami untuk kualitas, inovasi, dan kepuasan pelanggan telah membuat kami mitra yang dipercaya bagi industri di seluruh Indonesia.
+              Berpengalaman sejak tahun 2007, <b>ATIGA Aluminium</b> telah menyediakan jasa pemasangan aluminium berkualitas tinggi dan produk standar untuk berbagai kebutuhan hunian dan komersial.
+              Komitmen kami untuk kualitas, inovasi, dan kepuasan pelanggan telah membuat kami mitra yang dipercaya bagi pelanggan.
             </p>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              Dengan fasilitas terbaru dan tenaga kerja profesional yang terampil, kami menyediakan solusi aluminium presisi yang memenuhi kebutuhan yang paling menantang. Dari profil standar hingga desain kustom yang kompleks,
-              kami menyediakan layanan komprehensif yang mencakup seluruh proses produksi.
+              Dengan tenaga kerja profesional yang terampil, kami menyediakan solusi aluminium presisi yang memenuhi kebutuhan yang paling menantang.
             </p>
             <p className="text-gray-600 leading-relaxed">
-              Dedikasi kami untuk keunggulan telah membawa kami ke reputasi untuk keandalan, inovasi, dan pelayanan pelanggan yang luar biasa. Kami bangga dengan kemampuan kami untuk mengubah visi pelanggan menjadi kenyataan, membuat produk aluminium yang melebihi ekspektasi dalam hal kualitas, performa, dan ketahanan.
+              Dedikasi kami untuk keunggulan telah membawa kami ke reputasi untuk keandalan, inovasi, dan pelayanan pelanggan yang luar biasa.
             </p>
           </div>
           <div className="lg:w-1/2 relative">
@@ -166,12 +169,13 @@ const About: React.FC = () => {
           </div>
         </div>
 
+        <br />
         {/* Why Choose Us Section */}
         <div className="mt-16">
-          <div className="text-center mb-12">
+          <div className="text-center mb-16">
             <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Mengapa Memilih ATIGA Aluminium?</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Keunggulan dan komitmen kami yang menjadikan ATIGA Aluminium pilihan terbaik untuk kebutuhan aluminium Anda
+            <p className="text-gray-600 max-w-6xl mx-auto">
+              Keunggulan dan komitmen kami yang menjadikan ATIGA Aluminium pilihan terbaik untuk kebutuhan Anda
             </p>
           </div>
 
@@ -190,7 +194,7 @@ const About: React.FC = () => {
 
           {/* Mobile Horizontal Scroll */}
           <div className="md:hidden">
-            <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 px-2">
+            <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 px-2" id="about-container">
               {features.map((feature, index) => (
                 <div
                   key={index}
@@ -205,9 +209,16 @@ const About: React.FC = () => {
                   </div>
                 </div>
               ))}
-            </div>
-            <div className="text-center mt-4">
-              <p className="text-sm text-gray-500">← Geser untuk melihat lebih banyak →</p>
+              <div className="flex justify-end mt-4">
+                <button className="bg-blue-600 text-white px-4 py-2 rounded-full" onClick={() => {
+                  const container = document.getElementById('about-container');
+                  if (container) {
+                    container.scrollLeft += 100;
+                  }
+                }}>
+                  <ArrowRight size={16} />
+                </button>
+              </div>
             </div>
           </div>
         </div>

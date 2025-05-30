@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATIGA Icon - SVG to PNG Converter</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .converter-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .icon-preview {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+
+        .size-selector {
+            margin: 10px;
+        }
+
+        .download-btn {
+            background: #3B82F6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .download-btn:hover {
+            background: #2563EB;
+        }
+
+        .color-selector {
+            margin: 20px 0;
+        }
+
+        .color-option {
+            margin: 5px;
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            background: white;
+            display: inline-block;
+        }
+
+        .color-option.active {
+            border-color: #3B82F6;
+            background: #EBF4FF;
+        }
+
+        .text-selector {
+            margin: 20px 0;
+        }
+
+        .text-option {
+            margin: 5px;
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            background: white;
+            display: inline-block;
+        }
+
+        .text-option.active {
+            border-color: #3B82F6;
+            background: #EBF4FF;
+        }
+
+        .instructions {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="converter-container">
+        <h1>ATIGA Icon - SVG to PNG Converter</h1>
+
+        <div class="instructions">
+            <h3>How to use:</h3>
+            <ol>
+                <li>Select your preferred color below</li>
+                <li>Choose icon type (simple or with A3 Aluminium text)</li>
+                <li>Select size and click "Download PNG" button</li>
+                <li>The PNG file will be automatically downloaded</li>
+            </ol>
+        </div>
+
+        <div class="color-selector">
+            <h3>Select Color:</h3>
+            <div class="option-grid">
+                <button class="color-option active" onclick="selectColor('blue')" id="blue-option">
+                    🔵 Blue (#3B82F6)
+                </button>
+                <button class="color-option" onclick="selectColor('white')" id="white-option">
+                    ⚪ White
+                </button>
+                <button class="color-option" onclick="selectColor('black')" id="black-option">
+                    ⚫ Black
+                </button>
+            </div>
+        </div>
+
+        <div class="text-selector">
+            <h3>Select Icon Type:</h3>
+            <div class="option-grid">
+                <button class="text-option active" onclick="selectText('simple')" id="simple-option">
+                    🔲 Simple Icon
+                </button>
+                <button class="text-option" onclick="selectText('text')" id="text-option">
+                    📝 With A3 Aluminium Text
+                </button>
+            </div>
+        </div>
+
+        <div class="icon-preview">
+            <h3>Preview:</h3>
+            <div id="preview-container" style="padding: 20px;">
+                <!-- SVG will be inserted here -->
+            </div>
+        </div>
+
+        <div class="size-selector">
+            <h3>Download PNG Files:</h3>
+            <button class="download-btn" onclick="downloadPNG(16)">16x16px</button>
+            <button class="download-btn" onclick="downloadPNG(32)">32x32px</button>
+            <button class="download-btn" onclick="downloadPNG(64)">64x64px</button>
+            <button class="download-btn" onclick="downloadPNG(128)">128x128px</button>
+            <button class="download-btn" onclick="downloadPNG(256)">256x256px</button>
+            <button class="download-btn" onclick="downloadPNG(512)">512x512px</button>
+        </div>
+    </div>
+
+    <script>
+        let currentColor = '#3B82F6';
+        let currentColorName = 'blue';
+        let currentBackground = 'transparent';
+        let currentTextType = 'simple';
+
+        function selectColor(color) {
+            // Update active state
+            document.querySelectorAll('.color-option').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(color + '-option').classList.add('active');
+
+            currentColorName = color;
+
+            if (color === 'blue') {
+                currentColor = '#3B82F6';
+                currentBackground = 'transparent';
+                document.getElementById('preview-container').style.background = 'transparent';
+            } else if (color === 'white') {
+                currentColor = 'white';
+                currentBackground = '#1f2937';
+                document.getElementById('preview-container').style.background = '#1f2937';
+            } else if (color === 'black') {
+                currentColor = '#000000';
+                currentBackground = 'transparent';
+                document.getElementById('preview-container').style.background = 'transparent';
+            }
+            updatePreview();
+        }
+
+        function selectText(textType) {
+            // Update active state
+            document.querySelectorAll('.text-option').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(textType + '-option').classList.add('active');
+
+            currentTextType = textType;
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const previewContainer = document.getElementById('preview-container');
+            previewContainer.innerHTML = getSVG(64, currentColor, currentTextType);
+        }
+
+        function getSVG(size, color, textType) {
+            const baseIcon = `
+                <rect x="2" y="2" width="28" height="28" rx="4" stroke="${color}" stroke-width="2" fill="none"/>
+                <rect x="6" y="6" width="20" height="20" rx="2" stroke="${color}" stroke-width="1.5" fill="none"/>
+                <line x1="6" y1="16" x2="26" y2="16" stroke="${color}" stroke-width="1"/>
+                <line x1="16" y1="6" x2="16" y2="26" stroke="${color}" stroke-width="1"/>
+                <circle cx="6" cy="6" r="1.5" fill="${color}"/>
+                <circle cx="26" cy="6" r="1.5" fill="${color}"/>
+                <circle cx="6" cy="26" r="1.5" fill="${color}"/>
+                <circle cx="26" cy="26" r="1.5" fill="${color}"/>
+            `;
+
+            const textContent = textType === 'text' ? `
+                <!-- A3 Text - positioned to the right, top -->
+                <text x="36" y="14" font-family="Arial, sans-serif" font-size="8" font-weight="bold" text-anchor="start" fill="${color}">A3</text>
+                <!-- ALUMINIUM Text - positioned to the right, bottom -->
+                <text x="36" y="24" font-family="Arial, sans-serif" font-size="6" font-weight="normal" text-anchor="start" fill="${color}">ALUMINIUM</text>
+            ` : '';
+
+            const viewBox = textType === 'text' ? '0 0 80 32' : '0 0 32 32';
+            const svgWidth = textType === 'text' ? size * 2.5 : size;
+
+            return `
+                <svg width="${svgWidth}" height="${size}" viewBox="${viewBox}" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    ${baseIcon}
+                    ${textContent}
+                </svg>
+            `;
+        }
+
+        function downloadPNG(size) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const scale = window.devicePixelRatio || 1;
+
+            // Calculate canvas dimensions based on text type
+            const canvasWidth = currentTextType === 'text' ? size * 2.5 : size;
+            const canvasHeight = size;
+
+            canvas.width = canvasWidth * scale;
+            canvas.height = canvasHeight * scale;
+            canvas.style.width = canvasWidth + 'px';
+            canvas.style.height = canvasHeight + 'px';
+
+            ctx.scale(scale, scale);
+
+            // Set background
+            if (currentBackground !== 'transparent') {
+                ctx.fillStyle = currentBackground;
+                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+            }
+
+            const svgString = getSVG(size, currentColor, currentTextType);
+            const img = new Image();
+            const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(svgBlob);
+
+            img.onload = function () {
+                ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+
+                canvas.toBlob(function (blob) {
+                    const link = document.createElement('a');
+                    const textSuffix = currentTextType === 'text' ? '-with-text' : '';
+                    const colorSuffix = currentColorName !== 'blue' ? `-${currentColorName}` : '';
+                    link.download = `atiga-icon-${size}x${size}${colorSuffix}${textSuffix}.png`;
+                    link.href = URL.createObjectURL(blob);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                });
+            };
+
+            img.src = url;
+        }
+
+        // Initialize preview
+        updatePreview();
+    </script>
+</body>
+
+</html>

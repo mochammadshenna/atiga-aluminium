@@ -586,6 +586,37 @@ For technical support or content updates:
   - Global phone number: +62 896-3612-4857
   - Custom messages for different contexts
   - Seamless integration across all CTAs
+- **Custom ATIGA Icon System**:
+  - **Frame-inspired design** perfect for aluminium company branding
+  - **6 complete variants**: Blue, White, Black colors × Simple + Text layouts
+  - **Improved text layout** - A3 and ALUMINIUM text positioned to the right of icon frame
+  - **Smart dimensions** - Text variants automatically scale to 2.5x width for proper proportions
+  - **React component** supports `withText` prop for easy switching between layouts
+  - **PNG converter** with automatic sizing and proper canvas dimensions
+  - **SVG files** for all variants stored in `public/icons/`
+
+### Icon Usage Examples
+
+```tsx
+// Simple icon
+<AtigaIcon size={32} color="blue" />
+
+// With text positioned to the right
+<AtigaIcon size={64} color="black" withText={true} />
+
+// White variant (useful on dark backgrounds)
+<AtigaIcon size={48} color="white" withText={true} />
+```
+
+#### How to Access Save Image
+
+```bash
+open scripts/svg-to-png-converter.html
+
+or
+
+http://localhost:5173/scripts/svg-to-png-converter.html
+```
 
 ### Performance Enhancements
 
@@ -662,5 +693,35 @@ Local images stored in `public/images/`:
 - **Business Hours**:
   - Monday - Saturday: 08:00 - 17:00
   - Sunday: 08:00 - 15:00
+
+### ATIGA Icon System Files
+
+**SVG Icon Files** (stored in `public/icons/`):
+
+**Simple Icons** (32x32px viewBox):
+
+- `atiga-icon.svg` - Blue (#3B82F6)
+- `atiga-icon-white.svg` - White
+- `atiga-icon-black.svg` - Black
+
+**Text Variants** (80x32px viewBox with text positioned right):
+
+- `atiga-icon-blue-text.svg` - Blue with A3 ALUMINIUM text
+- `atiga-icon-white-with-text.svg` - White with A3 ALUMINIUM text  
+- `atiga-icon-black-with-text.svg` - Black with A3 ALUMINIUM text
+
+**React Component**: `src/components/icons/AtigaIcon.tsx`
+
+- Supports `withText` prop for layout switching
+- Automatically adjusts dimensions (2.5x width for text variants)
+- Color customization through `color` prop
+- Size scaling through `size` prop
+
+**PNG Generator**: `scripts/svg-to-png-converter.html`
+
+- Converts all variants to PNG format
+- Supports sizes: 16px, 32px, 64px, 128px, 256px, 512px
+- Automatic canvas sizing for text variants
+- File naming: `atiga-icon-{size}x{size}[-color][-with-text].png`
 
 This setup guide provides everything needed to develop, deploy, and maintain the A3 Aluminium website efficiently with all the latest improvements and optimizations.

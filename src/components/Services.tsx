@@ -127,9 +127,8 @@ const Services: React.FC = () => {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">Layanan Kami</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-8"></div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Kami menyediakan solusi pembuatan aluminium berkualitas tinggi dengan presisi dan keunggulan
-            yang telah terbukti selama bertahun-tahun
+          <p className="text-xl text-gray-600 max-w-6xl mx-auto leading-relaxed">
+            Kami menyediakan jasa pemasangan aluminium berkualitas yang telah terbukti dan terpercaya selama bertahun-tahun
           </p>
         </div>
 

@@ -1,5 +1,6 @@
-import { Menu, SquareAsterisk, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { AtigaIcon } from './icons';
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,9 +43,9 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <div className="flex items-center">
+          <div className="flex items-center" onClick={() => window.location.href = '/'}>
             <div className="bg-blue-600 p-1.5 md:p-2 rounded-lg mr-2 md:mr-3">
-              <SquareAsterisk size={24} className="md:w-7 md:h-7 text-white" />
+              <AtigaIcon size={24} className="md:w-7 md:h-7 text-white" />
             </div>
             <div className="flex flex-col">
               <span className="text-xl md:text-2xl font-bold text-gray-800">
@@ -73,7 +74,7 @@ const Header: React.FC = () => {
               onClick={openWhatsApp}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 lg:px-6 lg:py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm lg:text-base"
             >
-              Konsultasi Gratis
+              Pesan Sekarang
             </button>
           </nav>
 
@@ -108,9 +109,9 @@ const Header: React.FC = () => {
                   openWhatsApp();
                   setIsOpen(false);
                 }}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-full font-medium transition-all duration-300 touch-friendly"
+                className="w-full bg-blue-200 hover:bg-blue-250 text-blue-600 px-6 py-4 rounded-full font-medium transition-all duration-300 touch-friendly"
               >
-                Konsultasi Gratis
+                <b>Pesan Sekarang</b>
               </button>
             </div>
           </div>

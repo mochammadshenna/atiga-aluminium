@@ -1,0 +1,17 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer frame -->
+  <rect x="2" y="2" width="28" height="28" rx="4" stroke="#000000" stroke-width="2" fill="none"/>
+  
+  <!-- Inner frame -->
+  <rect x="6" y="6" width="20" height="20" rx="2" stroke="#000000" stroke-width="1.5" fill="none"/>
+  
+  <!-- Center cross pattern -->
+  <line x1="6" y1="16" x2="26" y2="16" stroke="#000000" stroke-width="1"/>
+  <line x1="16" y1="6" x2="16" y2="26" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Corner accents - representing aluminium corner joints -->
+  <circle cx="6" cy="6" r="1.5" fill="#000000"/>
+  <circle cx="26" cy="6" r="1.5" fill="#000000"/>
+  <circle cx="6" cy="26" r="1.5" fill="#000000"/>
+  <circle cx="26" cy="26" r="1.5" fill="#000000"/>
+</svg> 

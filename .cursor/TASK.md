@@ -228,6 +228,13 @@
   - [x] Phone number: +62 896-3612-4857
   - [x] Custom messages for different contexts
   - [x] FloatingWhatsApp component updated
+- [x] **Custom ATIGA Icon System**:
+  - [x] **Frame-inspired design** perfect for aluminium company
+  - [x] **6 complete variants**: Blue, White, Black (simple + with text)
+  - [x] **Text variants with improved layout** - A3 and ALUMINIUM positioned to the right of icon frame
+  - [x] **React component** with `withText` prop support
+  - [x] **PNG converter** with automatic sizing for text variants
+  - [x] **SVG files** for all variants in `public/icons/`
 
 ### Technical Improvements
 
@@ -236,6 +243,7 @@
 - [x] **User Experience**: Auto-scroll gallery with intuitive controls
 - [x] **Responsive Design**: Smart image handling for different aspect ratios
 - [x] **WhatsApp Functionality**: Seamless integration across all CTAs
+- [x] **Icon System**: Complete branding solution with customizable colors and layouts
 
 ### Product Images Updated
 
@@ -254,7 +262,7 @@
 ### Contact Information
 
 - [x] **WhatsApp**: +62 896-3612-4857
-- [x] **Email**: <info@atigaaluminium.com>
+- [x] **Email**: <tisnawardana@gmail.com>
 - [x] **Address**: Veronica Residence 2, Jl. Mandor Dami 3 No.11b, Kalimulya, Depok, Jawa Barat 17530
 
 ### Mobile Responsiveness Improvements

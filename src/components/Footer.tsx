@@ -1,5 +1,6 @@
-import { ArrowUp, Facebook, Instagram, Linkedin, SquareAsterisk, Twitter } from 'lucide-react';
+import { ArrowUp, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
 import React from 'react';
+import { AtigaIcon } from './icons';
 
 const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -16,7 +17,7 @@ const Footer: React.FC = () => {
           <div className="mb-12 md:mb-0 md:w-1/2 md:pr-12">
             <div className="flex items-center mb-4">
               <div className="bg-blue-600 p-2 rounded-lg mr-3">
-                <SquareAsterisk size={28} className="text-white" />
+                <AtigaIcon size={28} className="text-white" />
               </div>
               <div className="flex flex-col">
                 <span className="text-2xl font-bold text-white">
@@ -28,7 +29,7 @@ const Footer: React.FC = () => {
               </div>
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">
-              Memberikan pelayanan terbaik dengan produk unggul dan berkualitas.
+              Memberikan pelayanan terbaik dan terpercaya
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-blue-400 transition duration-300">
@@ -73,10 +74,10 @@ const Footer: React.FC = () => {
 
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between">
           <p className="text-gray-500 text-sm mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} ATIGA Aluminium. Semua hak cipta dilindungi.
+            Copyright &copy; {new Date().getFullYear()} ATIGA Aluminium
           </p>
 
-          <div className="flex space-x-6">
+          {/* <div className="flex space-x-6">
             <a href="#" className="text-gray-500 hover:text-white text-sm transition duration-300">
               Kebijakan Privasi
             </a>
@@ -86,7 +87,7 @@ const Footer: React.FC = () => {
             <a href="#" className="text-gray-500 hover:text-white text-sm transition duration-300">
               Peta Situs
             </a>
-          </div>
+          </div> */}
 
           <button
             onClick={scrollToTop}

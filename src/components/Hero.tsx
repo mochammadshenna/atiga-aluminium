@@ -1,5 +1,5 @@
 import { gsap } from 'gsap';
-import { ArrowRight, Award, ChevronDown, Phone, Shield } from 'lucide-react';
+import { ArrowRight, Award, ChevronDown, Phone, ShieldCheck } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 
 const Hero: React.FC = () => {
@@ -108,8 +108,8 @@ const Hero: React.FC = () => {
                 </h1>
 
                 <p className="text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed max-w-lg">
-                  ATIGA Aluminium menghadirkan jendela, pintu, dan kaca berkualitas tinggi
-                  dengan produk unggulan, modern dan desain yang elegan untuk kebutuhan Anda.
+                  ATIGA Aluminium menyediakan jasa pemasangan jendela, pintu, dan kaca berkualitas tinggi
+                  dengan model unggulan, modern dan desain yang elegan.
                 </p>
               </div>
 
@@ -159,11 +159,11 @@ const Hero: React.FC = () => {
                 <div className="absolute top-2 right-4 md:top-6 md:right-6 bg-white/95 backdrop-blur-sm p-3 md:p-4 rounded-xl shadow-lg border border-gray-100">
                   <div className="flex items-center space-x-2 md:space-x-3">
                     <div className="w-8 h-8 md:w-10 md:h-10 bg-green-100 rounded-full flex items-center justify-center">
-                      <Shield size={16} className="md:w-5 md:h-5 text-green-600" />
+                      <ShieldCheck size={16} className="md:w-5 md:h-5 text-green-600" />
                     </div>
                     <div>
-                      <div className="font-semibold text-gray-800 text-sm md:text-base">Berkualitas Tinggi</div>
-                      <div className="text-gray-600 text-xs md:text-sm">Produk Unggulan</div>
+                      <div className="font-semibold text-gray-800 text-sm md:text-base">Produk Berkualitas</div>
+                      <div className="text-gray-600 text-xs md:text-sm">Desain Unggulan</div>
                     </div>
                   </div>
                 </div>

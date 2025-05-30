@@ -90,7 +90,7 @@ const Contact: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-800 mb-1">Telepon</h4>
-                      <p className="text-gray-600 text-sm">+62 896 3612 4857</p>
+                      <p className="text-gray-600 text-sm">+62 896 3612 4857 - <b className="text-blue-600">Uki</b></p>
                     </div>
                   </div>
 
@@ -100,7 +100,7 @@ const Contact: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-800 mb-1">Email</h4>
-                      <p className="text-gray-600 text-sm">info@atigaaluminium.com</p>
+                      <p className="text-gray-600 text-sm">tisnawardana@gmail.com</p>
                     </div>
                   </div>
                 </div>
@@ -171,7 +171,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Telepon</h4>
-                  <p className="text-gray-600 text-sm">+62 896 3612 4857</p>
+                  <p className="text-gray-600 text-sm">+62 896 3612 4857 - <b className="text-blue-600">Uki</b></p>
                 </div>
               </div>
 
@@ -181,7 +181,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Email</h4>
-                  <p className="text-gray-600 text-sm">info@atigaaluminium.com</p>
+                  <p className="text-gray-600 text-sm">tisnawardana@gmail.com</p>
                 </div>
               </div>
             </div>

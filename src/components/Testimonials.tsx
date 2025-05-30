@@ -1,4 +1,4 @@
-import { Quote } from 'lucide-react';
+import { ArrowLeft, Quote } from 'lucide-react';
 import React, { useEffect, useRef } from 'react';
 
 interface TestimonialProps {
@@ -78,19 +78,19 @@ const Testimonials: React.FC = () => {
   const testimonials = [
     {
       quote: "ATIGA Aluminium telah menjadi mitra utama kami untuk aluminium selama lebih dari 10 tahun. Kualitas dan ketepatan yang sangat baik.",
-      author: "Pak Dwi",
+      author: "Pak Dwi S.A",
       company: "Rumah Pribadi",
       delay: 100
     },
     {
       quote: "Profil kustom yang dihasilkan oleh ATIGA Aluminium membantu menyelesaikan tantangan desain rumah pribadi kami. Timnya sangat luar biasa.",
-      author: "Pak Andi",
+      author: "Pak NurAndi",
       company: "Rumah Pribadi",
       delay: 300
     },
     {
       quote: "Bekerja dengan ATIGA Aluminium memberikan pelayanan yang sangat baik. Kami sangat puas dengan kualitas dan hasil yang diberikan.",
-      author: "Pak Budi",
+      author: "Pak Budi Sujamto",
       company: "Rumah Pribadi",
       delay: 500
     }
@@ -125,7 +125,7 @@ const Testimonials: React.FC = () => {
 
         {/* Mobile Horizontal Scroll */}
         <div className="md:hidden">
-          <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 px-2">
+          <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 px-2" id="testimonials-container">
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
@@ -140,8 +140,15 @@ const Testimonials: React.FC = () => {
               </div>
             ))}
           </div>
-          <div className="text-center mt-4">
-            <p className="text-sm text-gray-500">← Geser untuk melihat testimoni lainnya →</p>
+          <div className="flex justify-start mt-4">
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-full" onClick={() => {
+              const container = document.getElementById('testimonials-container');
+              if (container) {
+                container.scrollLeft += 100;
+              }
+            }}>
+              <ArrowLeft size={16} />
+            </button>
           </div>
         </div>
       </div>

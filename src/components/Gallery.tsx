@@ -180,8 +180,9 @@ const Gallery: React.FC = () => {
           </h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Lihat koleksi proyek-proyek terbaik kami dalam pemasangan jendela, pintu,
-            dan sistem aluminium berkualitas tinggi untuk berbagai kebutuhan
+            Lihat koleksi proyek-proyek terbaik kami
+            <br />
+            dalam pemasangan jendela, pintu, dan kaca aluminium untuk berbagai kebutuhan
           </p>
         </div>
 
@@ -303,9 +304,9 @@ const Gallery: React.FC = () => {
               </h3>
               <button
                 onClick={closeModal}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-300"
+                className="p-2 bg-blue-100 hover:bg-blue-300 rounded-full transition-colors duration-300 hover:scale-110"
               >
-                <X size={24} className="text-gray-600" />
+                <X size={24} className="text-blue-600" />
               </button>
             </div>
 
@@ -366,7 +367,7 @@ const Gallery: React.FC = () => {
                     <div className="flex items-center text-gray-600">
                       <User size={16} className="mr-2 text-blue-600" />
                       <div>
-                        <span className="font-medium">Klien:</span>
+                        <span className="font-medium">Pelanggan:</span>
                         <br />
                         <span>{selectedImage.client}</span>
                       </div>
