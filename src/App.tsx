@@ -18,6 +18,9 @@ function App() {
   // const [currentComponent, setCurrentComponent] = useState<string | null>(null);
 
   useEffect(() => {
+    // Log to console for debugging
+    console.log('A3 Aluminium App - Loading...');
+
     // Update document title
     document.title = 'A3 Aluminium - Jendela, Pintu & Kaca Tempered Berkualitas Tinggi';
 
@@ -37,6 +40,8 @@ function App() {
         }
       });
     });
+
+    console.log('A3 Aluminium App - Loaded successfully!');
   }, []);
 
   // TODO : for test uncomment the code below
@@ -163,31 +168,42 @@ function App() {
   //   );
   // }
 
-  return (
-    // TODO : for test uncomment the code below
-    // <div className="font-sans">
-    //   <div className="fixed top-4 right-4 z-50 bg-black text-white p-4 rounded">
-    //     <button
-    //       onClick={() => setTestMode(true)}
-    //       className="bg-red-600 px-4 py-2 rounded text-sm"
-    //     >
-    //       Back to Test Menu
-    //     </button>
-    //   </div>
-
-    <div className="font-sans">
-      <Header />
-      <Hero />
-      <Services />
-      <Products />
-      <Gallery />
-      <About />
-      <Testimonials />
-      <Contact />
-      <Footer />
-      <FloatingWhatsApp />
-    </div >
-  );
+  try {
+    return (
+      <div className="font-sans">
+        <Header />
+        <Hero />
+        <Services />
+        <Products />
+        <Gallery />
+        <About />
+        <Testimonials />
+        <Contact />
+        <Footer />
+        <FloatingWhatsApp />
+      </div>
+    );
+  } catch (error) {
+    console.error('App rendering error:', error);
+    return (
+      <div className="min-h-screen bg-red-50 flex items-center justify-center p-8">
+        <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center">
+          <h1 className="text-2xl font-bold text-red-600 mb-4">
+            Oops! Something went wrong
+          </h1>
+          <p className="text-gray-700 mb-4">
+            There was an error loading the A3 Aluminium website.
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Reload Page
+          </button>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;

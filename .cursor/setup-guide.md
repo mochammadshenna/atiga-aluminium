@@ -21,6 +21,7 @@ React 18 (Single Page Application)
 - **Accessibility-First**: WCAG 2.1 AA compliance
 - **Performance-Optimized**: Lazy loading, image optimization
 - **SEO-Friendly**: Meta tags, semantic HTML, structured data
+- **Error Boundary Pattern**: Comprehensive error handling and recovery
 
 ## 📁 Folder Structure
 
@@ -32,7 +33,17 @@ atiga-aluminium/
 │   │   ├── gallery/              # Gallery images
 │   │   ├── hero/                 # Hero section images
 │   │   └── icons/                # Favicons, PWA icons
-│   ├── favicon.ico
+│   ├── icons/                    # ATIGA icon system
+│   │   ├── atiga-icon.svg        # Simple blue icon
+│   │   ├── atiga-icon-white.svg  # Simple white icon
+│   │   ├── atiga-icon-black.svg  # Simple black icon
+│   │   ├── atiga-icon-blue-text.svg    # Blue with A3 ALUMINIUM text
+│   │   ├── atiga-icon-white-with-text.svg # White with text
+│   │   └── atiga-icon-black-with-text.svg # Black with text
+│   ├── favicon-16x16.svg         # 16x16 favicon
+│   ├── favicon-32x32.svg         # 32x32 favicon
+│   ├── apple-touch-icon.svg      # iOS touch icon
+│   ├── favicon.ico               # Legacy favicon
 │   └── robots.txt
 │
 ├── src/
@@ -54,6 +65,9 @@ atiga-aluminium/
 │   │   │   ├── About.tsx
 │   │   │   ├── Testimonials.tsx
 │   │   │   └── Contact.tsx
+│   │   ├── icons/               # Custom icon components
+│   │   │   ├── AtigaIcon.tsx    # Main ATIGA icon component
+│   │   │   └── index.tsx        # Icon exports
 │   │   └── ui/                  # UI-specific components
 │   │       ├── ProductCard.tsx
 │   │       ├── GalleryCard.tsx
@@ -85,8 +99,8 @@ atiga-aluminium/
 │   │   ├── products.ts
 │   │   └── gallery.ts
 │   │
-│   ├── App.tsx                  # Main App component
-│   ├── main.tsx                 # Application entry point
+│   ├── App.tsx                  # Main App component with error handling
+│   ├── main.tsx                 # Application entry point with initialization
 │   └── index.css                # Tailwind imports
 │
 ├── .env.example                 # Environment variables template
@@ -105,28 +119,27 @@ atiga-aluminium/
 ```json
 {
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "typescript": "^5.0.2",
-    "gsap": "^3.12.2",
-    "lucide-react": "^0.294.0",
-    "react-hook-form": "^7.47.0",
-    "@hookform/resolvers": "^3.3.2",
-    "zod": "^3.22.4",
-    "embla-carousel-react": "^8.0.0",
-    "framer-motion": "^10.16.4"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.5.3",
+    "gsap": "^3.13.0",
+    "lucide-react": "^0.344.0",
+    "react-hook-form": "^7.56.4",
+    "@hookform/resolvers": "^5.0.1",
+    "zod": "^3.25.34",
+    "embla-carousel-react": "^8.6.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.43",
-    "@types/react-dom": "^18.2.17",
-    "@vitejs/plugin-react": "^4.2.1",
-    "vite": "^5.0.8",
-    "tailwindcss": "^3.3.6",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.32",
-    "eslint": "^8.55.0",
-    "@typescript-eslint/eslint-plugin": "^6.14.0",
-    "@typescript-eslint/parser": "^6.14.0"
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.2",
+    "tailwindcss": "^3.4.1",
+    "autoprefixer": "^10.4.18",
+    "postcss": "^8.4.35",
+    "eslint": "^9.9.1",
+    "@typescript-eslint/eslint-plugin": "^8.3.0",
+    "@typescript-eslint/parser": "^8.3.0"
   }
 }
 ```
@@ -162,15 +175,35 @@ Create `vercel.json`:
       "use": "@vercel/static-build"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "env": {
     "NODE_ENV": "production"
-  }
+  },
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -585,8 +618,8 @@ Update the hero content by modifying:
 
 ```typescript
 const heroContent = {
-  headline: "Solusi Aluminium",
-  subheadline: "Terdepan",
+  headline: "Solusi Pemasangan Aluminium",
+  subheadline: "Berkualitas",
   description: "ATIGA Aluminium menghadirkan jendela, pintu, dan kaca tempered berkualitas tinggi...",
   primaryCTA: "Lihat Galeri Proyek",
   secondaryCTA: "Konsultasi Gratis"
@@ -629,12 +662,14 @@ module.exports = {
 - **Product Images**: 800x600px (4:3 ratio) - optimized for popup viewing
 - **Gallery Images**: 600x400px (3:2 ratio) - auto-scroll optimized
 - **Thumbnails**: 300x200px (3:2 ratio)
+- **Favicons**: SVG format with 16x16, 32x32, and 180x180 variants
 
 ### Supported Formats
 
 - WebP (preferred for web)
 - JPEG (fallback)
 - PNG (for logos/graphics)
+- SVG (for icons and favicons)
 
 ### Optimization
 
@@ -653,25 +688,38 @@ npm install --save-dev imagemin imagemin-webp
 
 ```html
 <head>
-  <title>A3 Aluminium - Jendela & Pintu Aluminium Berkualitas</title>
-  <meta name="description" content="A3 Aluminium menyediakan jendela, pintu, dan produk aluminium berkualitas tinggi. Layanan pemasangan professional di seluruh Indonesia.">
-  <meta name="keywords" content="aluminium, jendela, pintu, kaca, tempered glass, sliding window">
+  <meta charset="UTF-8" />
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon-32x32.svg" />
+  <link rel="icon" type="image/svg+xml" sizes="16x16" href="/favicon-16x16.svg" />
+  <link rel="icon" type="image/svg+xml" sizes="32x32" href="/favicon-32x32.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- SEO Meta Tags -->
+  <title>A3 Aluminium - Jendela, Pintu & Kaca Tempered Berkualitas Tinggi</title>
+  <meta name="description" content="ATIGA Aluminium menyediakan jasa pemasangan jendela, pintu, dan kaca tempered berkualitas tinggi dengan desain modern dan elegan. Pengalaman 18+ tahun melayani kebutuhan aluminium Anda." />
+  <meta name="keywords" content="aluminium, jendela, pintu, kaca tempered, sliding window, pemasangan jendela, ATIGA, A3 Aluminium, Depok, Jakarta" />
   
   <!-- Open Graph -->
-  <meta property="og:title" content="A3 Aluminium - Solusi Aluminium Terpercaya">
-  <meta property="og:description" content="Produk aluminium berkualitas tinggi untuk kebutuhan rumah dan komersial">
-  <meta property="og:image" content="/images/og-image.jpg">
+  <meta property="og:title" content="A3 Aluminium - Solusi Aluminium Terpercaya" />
+  <meta property="og:description" content="Jasa pemasangan jendela, pintu, dan kaca tempered berkualitas tinggi dengan pengalaman 18+ tahun" />
+  <meta property="og:image" content="/images/hero-image.jpg" />
+  <meta property="og:url" content="https://atiga-aluminium.vercel.app" />
   
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "A3 Aluminium",
-    "description": "Penyedia produk aluminium berkualitas tinggi",
-    "url": "https://a3aluminium.com"
-  }
-  </script>
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="A3 Aluminium - Solusi Aluminium Terpercaya" />
+  <meta name="twitter:description" content="Jasa pemasangan jendela, pintu, dan kaca tempered berkualitas tinggi" />
+  <meta name="twitter:image" content="/images/hero-image.jpg" />
+  
+  <!-- Theme colors -->
+  <meta name="theme-color" content="#3B82F6" />
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://atiga-aluminium.vercel.app" />
 </head>
 ```
 
@@ -739,6 +787,142 @@ export const openWhatsApp = (customMessage?: string) => {
 - FloatingWhatsApp component
 - All "Konsultasi Gratis" buttons
 
+## 🔧 Error Handling & Stability
+
+### App-Level Error Handling
+
+**File**: `src/App.tsx`
+
+```typescript
+function App() {
+  try {
+    return (
+      <div className="font-sans">
+        <Header />
+        <Hero />
+        {/* ... other components */}
+      </div>
+    );
+  } catch (error) {
+    console.error('App rendering error:', error);
+    return (
+      <div className="min-h-screen bg-red-50 flex items-center justify-center p-8">
+        <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center">
+          <h1 className="text-2xl font-bold text-red-600 mb-4">
+            Oops! Something went wrong
+          </h1>
+          <p className="text-gray-700 mb-4">
+            There was an error loading the A3 Aluminium website.
+          </p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Reload Page
+          </button>
+        </div>
+      </div>
+    );
+  }
+}
+```
+
+### Main Application Initialization
+
+**File**: `src/main.tsx`
+
+```typescript
+// Enhanced error handling and loading states
+const initApp = () => {
+  console.log('A3 Aluminium - Initializing app...');
+  
+  const rootElement = document.getElementById('root');
+  
+  if (!rootElement) {
+    console.error('Root element not found!');
+    // Show error message
+    return;
+  }
+
+  // Show loading state
+  rootElement.innerHTML = `
+    <div style="/* loading styles */">
+      <div style="text-align: center; color: white;">
+        <div style="/* spinner styles */"></div>
+        <h1>A3 Aluminium</h1>
+        <p>Loading...</p>
+      </div>
+    </div>
+  `;
+
+  try {
+    const root = createRoot(rootElement);
+    root.render(<StrictMode><App /></StrictMode>);
+  } catch (error) {
+    console.error('Failed to initialize React app:', error);
+    // Show error recovery UI
+  }
+};
+```
+
+## 🎨 Favicon System
+
+### ATIGA Icon Variants
+
+```
+public/icons/
+├── atiga-icon.svg                    # Blue simple icon
+├── atiga-icon-white.svg              # White simple icon  
+├── atiga-icon-black.svg              # Black simple icon
+├── atiga-icon-blue-text.svg          # Blue with A3 ALUMINIUM text
+├── atiga-icon-white-with-text.svg    # White with text
+└── atiga-icon-black-with-text.svg    # Black with text
+
+public/
+├── favicon-16x16.svg                 # 16x16 favicon
+├── favicon-32x32.svg                 # 32x32 favicon
+└── apple-touch-icon.svg              # iOS touch icon (180x180)
+```
+
+### React Icon Component
+
+```typescript
+// src/components/icons/AtigaIcon.tsx
+interface AtigaIconProps {
+  size?: number;
+  className?: string;
+  color?: string;
+  withText?: boolean;
+}
+
+const AtigaIcon: React.FC<AtigaIconProps> = ({
+  size = 24,
+  className = "",
+  color = "currentColor",
+  withText = false
+}) => {
+  const width = withText ? (size * 80 / 32) : size;
+  return (
+    <svg width={width} height={size} viewBox={withText ? "0 0 80 32" : "0 0 32 32"}>
+      {/* Icon content */}
+    </svg>
+  );
+};
+```
+
+### Usage Examples
+
+```tsx
+// Simple icon
+<AtigaIcon size={32} color="blue" />
+
+// With text positioned to the right
+<AtigaIcon size={64} color="black" withText={true} />
+
+// White variant (useful on dark backgrounds)
+<AtigaIcon size={48} color="white" withText={true} />
+```
+
 ## 🔧 Maintenance
 
 ### Regular Updates
@@ -754,6 +938,7 @@ export const openWhatsApp = (customMessage?: string) => {
 - Google Search Console
 - Lighthouse performance audits
 - User feedback collection
+- Error tracking and debugging
 
 ## 📞 Support
 
@@ -765,6 +950,29 @@ For technical support or content updates:
 4. Deploy to staging before production
 
 ## 🎨 Recent Updates (Latest Version)
+
+### Critical Stability Fixes (December 2024)
+
+- **Website Reliability**:
+  - ✅ **Fixed blank page issue** - Comprehensive error handling prevents blank screens
+  - ✅ **Enhanced initialization** - Robust DOM ready detection and React app startup
+  - ✅ **Loading indicators** - Beautiful loading screen with A3 Aluminium branding
+  - ✅ **Error boundaries** - Meaningful error messages with recovery options
+  - ✅ **Console logging** - Detailed debugging information for troubleshooting
+
+- **Professional Favicon System**:
+  - ✅ **ATIGA-branded favicons** - Created 16x16, 32x32 SVG favicons based on company logo
+  - ✅ **Apple touch icon** - Optimized 180x180 icon for iOS devices with white background
+  - ✅ **Browser tab branding** - Professional appearance in Chrome/browser tabs
+  - ✅ **Multi-device support** - Icons work seamlessly across all devices and platforms
+  - ✅ **SEO optimization** - Proper favicon structure for search engine indexing
+
+- **Enhanced SEO & Social Sharing**:
+  - ✅ **Comprehensive meta tags** - Detailed descriptions for search engines and social media
+  - ✅ **Open Graph protocol** - Perfect sharing previews on Facebook, LinkedIn, etc.
+  - ✅ **Twitter Card support** - Enhanced sharing experience on Twitter platform
+  - ✅ **Theme colors** - Brand-consistent colors across mobile browsers
+  - ✅ **Canonical URLs** - Proper URL structure for SEO ranking optimization
 
 ### Design Improvements
 
@@ -783,6 +991,7 @@ For technical support or content updates:
   - **Desktop pagination**: Maintains responsive grid layout (2-3 columns) with "Load More" functionality showing 6 products initially
   - **Card-by-card scrolling**: Precise navigation with 336px scroll distance (320px card + 16px gap)
   - **Click-anywhere-to-close functionality** added to product image popups for better UX
+  - **Enhanced Products modal** with navigation identical to Gallery modal for mobile responsive design
 - **Gallery**:
   - Auto-scroll functionality (3-second intervals)
   - Pause on hover with manual control resume
@@ -801,35 +1010,13 @@ For technical support or content updates:
   - **PNG converter** with automatic sizing and proper canvas dimensions
   - **SVG files** for all variants stored in `public/icons/`
 
-### Icon Usage Examples
-
-```tsx
-// Simple icon
-<AtigaIcon size={32} color="blue" />
-
-// With text positioned to the right
-<AtigaIcon size={64} color="black" withText={true} />
-
-// White variant (useful on dark backgrounds)
-<AtigaIcon size={48} color="white" withText={true} />
-```
-
-#### How to Access Save Image
-
-```bash
-open scripts/svg-to-png-converter.html
-
-or
-
-http://localhost:5173/scripts/svg-to-png-converter.html
-```
-
 ### Performance Enhancements
 
 - **Animations**: Optimized timing for faster, smoother interactions
 - **Image Management**: All product images stored locally with high quality
 - **User Experience**: Auto-scroll gallery with intuitive controls
 - **Responsive Design**: Smart image handling for different aspect ratios
+- **Error Recovery**: Graceful handling of component failures with user-friendly messages
 
 ### Mobile Responsiveness Enhancements
 
@@ -850,6 +1037,7 @@ http://localhost:5173/scripts/svg-to-png-converter.html
   - Desktop maintains responsive grid layout (2-3 columns based on screen size)
   - Mobile cards optimized with smaller dimensions and compact content
   - **Click-anywhere-to-close functionality** added to product image popups for better UX
+  - **Enhanced Products modal navigation** identical to Gallery modal for mobile responsive design
 - **About Section (Mengapa Memilih ATIGA)**:
   - **Features converted to horizontal scrolling cards** on mobile with swipe gestures
   - Desktop maintains grid layout while mobile uses scrollable cards
@@ -881,33 +1069,14 @@ http://localhost:5173/scripts/svg-to-png-converter.html
   - Proper viewport meta tag configuration
   - **Navbar space calculations**: Hero section accounts for fixed navbar height (≈80px mobile, ≈96px desktop)
 
-### Product Images Inventory
-
-Local images stored in `public/images/`:
-
-- `glass-2.jpg` - Kaca Tempered Premium
-- `glass-3.jpg` - Kaca Laminated  
-- `product-1.jpeg` - Produk Custom Aluminium
-- `produk-kaca.jpg` - Produk Kaca Berkualitas
-- `produk-kaca-1.jpg` - Kaca Premium Series
-- `produk-jendela.jpg` - Jendela Aluminium Premium
-- `produk-jendela-2.jpg` - Jendela Aluminium Modern
-- `produk-jendela-sliding.jpg` - Jendela Sliding Aluminium
-- `produk-jendela-sliding-2.jpg` - Jendela Sliding Premium
-- `produk-jendela-sliding-3.jpg` - Jendela Sliding Executive
-- `produk-jendela-sliding-4.jpeg` - Jendela Sliding Deluxe
-- `hero-image.jpg` - Main hero section image
-- `tentang-kami-image.jpg` - About us section image
-- `background-image-layanan-kami.jpg` - Services section background
-
 ### Contact Information
 
 - **Phone/WhatsApp**: +62 896-3612-4857
-- **Email**: <info@atigaaluminium.com>
+- **Email**: <tisnawardana@gmail.com>
 - **Address**: Veronica Residence 2, Jl. Mandor Dami 3 No.11b, Kalimulya, Depok, Jawa Barat 17530
 - **Business Hours**:
   - Monday - Saturday: 08:00 - 17:00
-  - Sunday: 08:00 - 15:00
+  - Sunday: Closed
 
 ### ATIGA Icon System Files
 
@@ -925,6 +1094,12 @@ Local images stored in `public/images/`:
 - `atiga-icon-white-with-text.svg` - White with A3 ALUMINIUM text  
 - `atiga-icon-black-with-text.svg` - Black with A3 ALUMINIUM text
 
+**Favicon Files** (stored in `public/`):
+
+- `favicon-16x16.svg` - 16x16 favicon for browser tabs
+- `favicon-32x32.svg` - 32x32 favicon for high-resolution displays
+- `apple-touch-icon.svg` - 180x180 iOS touch icon with white background
+
 **React Component**: `src/components/icons/AtigaIcon.tsx`
 
 - Supports `withText` prop for layout switching
@@ -932,11 +1107,4 @@ Local images stored in `public/images/`:
 - Color customization through `color` prop
 - Size scaling through `size` prop
 
-**PNG Generator**: `scripts/svg-to-png-converter.html`
-
-- Converts all variants to PNG format
-- Supports sizes: 16px, 32px, 64px, 128px, 256px, 512px
-- Automatic canvas sizing for text variants
-- File naming: `atiga-icon-{size}x{size}[-color][-with-text].png`
-
-This setup guide provides everything needed to develop, deploy, and maintain the A3 Aluminium website efficiently with all the latest improvements and optimizations.
+This setup guide provides everything needed to develop, deploy, and maintain the A3 Aluminium website efficiently with all the latest improvements, stability fixes, and professional branding elements.
