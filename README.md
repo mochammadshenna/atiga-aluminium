@@ -59,12 +59,6 @@ vercel --prod
 
 📊 **Vercel Dashboard**: <https://vercel.com/mochammadshennas-projects/atiga-aluminium>
 
-## 📞 Contact Information
-
-- **Phone/WhatsApp**: +62 896-3612-4857
-- **Email**: <tisnawardana@gmail.com>
-- **Address**: Veronica Residence 2, Jl. Mandor Dami 3 No.11b, Kalimulya, Depok, Jawa Barat 17530
-
 ## 🎨 ATIGA Icon System
 
 Custom icon system with 6 variants:
@@ -111,4 +105,4 @@ src/
 
 ---
 
-Built with ❤️ for ATIGA Aluminium by Modern Web Solutions
+Built with ❤️

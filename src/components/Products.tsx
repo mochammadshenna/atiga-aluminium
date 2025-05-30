@@ -1,7 +1,163 @@
 import { gsap } from 'gsap';
 import { ChevronLeft, ChevronRight, DoorOpen, Eye, Grid3X3, MoveHorizontal, Settings, Sparkles, Square, X } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { productCategories, products } from '../data/products';
+
+// Memoized ProductCard component for better performance
+const ProductCard: React.FC<{
+  product: {
+    id: number;
+    name: string;
+    category: string;
+    description: string;
+    features: string[];
+    images: string[];
+    specifications?: {
+      material?: string;
+      thickness?: string;
+      warranty?: string;
+    };
+  };
+  onImageClick: (imageSrc: string) => void;
+}> = React.memo(({ product, onImageClick }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: '100px' }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
+
+  const handleImageLoad = useCallback(() => {
+    setImageLoaded(true);
+  }, []);
+
+  const handleImageError = useCallback(() => {
+    console.warn(`Product image failed to load: ${product.name}`);
+    setImageLoaded(true);
+  }, [product.name]);
+
+  const handleCardClick = useCallback(() => {
+    onImageClick(product.images[0]);
+  }, [product.images, onImageClick]);
+
+  return (
+    <div
+      ref={cardRef}
+      className="product-card bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer transform hover:-translate-y-2"
+      onClick={handleCardClick}
+    >
+      {/* Product Image */}
+      <div className="relative h-64 overflow-hidden">
+        {isInView && (
+          <>
+            <img
+              src={product.images[0]}
+              alt={product.name}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              loading="lazy"
+              decoding="async"
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+              style={{
+                opacity: imageLoaded ? 1 : 0,
+                transition: 'opacity 0.3s ease-in-out'
+              }}
+            />
+
+            {!imageLoaded && (
+              <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+                <div className="text-gray-400 text-sm">Loading...</div>
+              </div>
+            )}
+          </>
+        )}
+
+        {!isInView && (
+          <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+            <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
+          </div>
+        )}
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+        {/* Product Category Badge */}
+        <div className="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+          {productCategories.find(cat => cat.id === product.category)?.name}
+        </div>
+
+        {/* View Button */}
+        <div className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <Eye size={20} className="text-white" />
+        </div>
+      </div>
+
+      {/* Product Content */}
+      <div className="p-6">
+        <h3 className="text-xl font-semibold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors duration-300">
+          {product.name}
+        </h3>
+
+        <p className="text-gray-600 mb-4 line-clamp-3">
+          {product.description}
+        </p>
+
+        {/* Features */}
+        <div className="mb-6">
+          <h4 className="text-sm font-medium text-gray-800 mb-2">Keunggulan:</h4>
+          <div className="flex flex-wrap gap-2">
+            {product.features.slice(0, 3).map((feature: string, featureIndex: number) => (
+              <span
+                key={featureIndex}
+                className="bg-blue-50 text-blue-700 px-2 py-1 rounded-md text-xs font-medium"
+              >
+                {feature}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Specifications */}
+        {product.specifications && (
+          <div className="p-4 bg-gray-50 rounded-lg">
+            <h4 className="text-sm font-medium text-gray-800 mb-2">Spesifikasi:</h4>
+            <div className="space-y-1 text-sm text-gray-600">
+              {product.specifications.material && (
+                <div>Material: {product.specifications.material}</div>
+              )}
+              {product.specifications.thickness && (
+                <div>Ketebalan: {product.specifications.thickness}</div>
+              )}
+              {product.specifications.warranty && (
+                <div>Garansi: {product.specifications.warranty}</div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+});
+
+ProductCard.displayName = 'ProductCard';
 
 const Products: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -74,7 +230,7 @@ const Products: React.FC = () => {
   }, []);
 
   // Handle category filter
-  const handleCategoryFilter = (categoryId: string) => {
+  const handleCategoryFilter = useCallback((categoryId: string) => {
     setSelectedCategory(categoryId);
 
     // Animate filter change - faster
@@ -90,10 +246,10 @@ const Products: React.FC = () => {
         }
       );
     }
-  };
+  }, []);
 
   // Open image popup
-  const openImagePopup = (imageSrc: string) => {
+  const openImagePopup = useCallback((imageSrc: string) => {
     const productIndex = filteredProducts.findIndex(product => product.images[0] === imageSrc);
     setCurrentProductIndex(productIndex);
     setSelectedImage(imageSrc);
@@ -106,10 +262,10 @@ const Products: React.FC = () => {
         { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
       );
     }
-  };
+  }, [filteredProducts]);
 
   // Close image popup
-  const closeImagePopup = () => {
+  const closeImagePopup = useCallback(() => {
     if (modalRef.current) {
       gsap.to(modalRef.current, {
         opacity: 0,
@@ -122,10 +278,10 @@ const Products: React.FC = () => {
         }
       });
     }
-  };
+  }, []);
 
   // Navigate through products in modal
-  const navigateProduct = (direction: 'prev' | 'next') => {
+  const navigateProduct = useCallback((direction: 'prev' | 'next') => {
     let newIndex = currentProductIndex;
 
     if (direction === 'next') {
@@ -136,18 +292,18 @@ const Products: React.FC = () => {
 
     setCurrentProductIndex(newIndex);
     setSelectedImage(filteredProducts[newIndex].images[0]);
-  };
+  }, [currentProductIndex, filteredProducts]);
 
   // WhatsApp function
-  const openWhatsApp = () => {
+  const openWhatsApp = useCallback(() => {
     const phoneNumber = "6289636124857";
     const message = encodeURIComponent("Halo *Pak Uki*, saya tertarik dengan produk custom A3 Aluminium dan ingin konsultasi gratis. Bisa minta informasi lebih lanjut?");
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-    window.open(whatsappUrl, '_blank');
-  };
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  }, []);
 
   // Load more products function
-  const loadMoreProducts = () => {
+  const loadMoreProducts = useCallback(() => {
     const newVisibleCount = visibleProducts + 6;
     setVisibleProducts(newVisibleCount);
 
@@ -168,7 +324,7 @@ const Products: React.FC = () => {
         );
       }
     }, 100);
-  };
+  }, [visibleProducts]);
 
   return (
     <div id="products" className="py-16 md:py-24 bg-white">
@@ -214,76 +370,11 @@ const Products: React.FC = () => {
             className="grid grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {filteredProducts.slice(0, visibleProducts).map((product) => (
-              <div
+              <ProductCard
                 key={product.id}
-                className="product-card bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer transform hover:-translate-y-2"
-                onClick={() => openImagePopup(product.images[0])}
-              >
-                {/* Product Image */}
-                <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={product.images[0]}
-                    alt={product.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                  {/* Product Category Badge */}
-                  <div className="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    {productCategories.find(cat => cat.id === product.category)?.name}
-                  </div>
-
-                  {/* View Button */}
-                  <div className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Eye size={20} className="text-white" />
-                  </div>
-                </div>
-
-                {/* Product Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors duration-300">
-                    {product.name}
-                  </h3>
-
-                  <p className="text-gray-600 mb-4 line-clamp-3">
-                    {product.description}
-                  </p>
-
-                  {/* Features */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-medium text-gray-800 mb-2">Keunggulan:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {product.features.slice(0, 3).map((feature, featureIndex) => (
-                        <span
-                          key={featureIndex}
-                          className="bg-blue-50 text-blue-700 px-2 py-1 rounded-md text-xs font-medium"
-                        >
-                          {feature}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Specifications */}
-                  {product.specifications && (
-                    <div className="p-4 bg-gray-50 rounded-lg">
-                      <h4 className="text-sm font-medium text-gray-800 mb-2">Spesifikasi:</h4>
-                      <div className="space-y-1 text-sm text-gray-600">
-                        {product.specifications.material && (
-                          <div>Material: {product.specifications.material}</div>
-                        )}
-                        {product.specifications.thickness && (
-                          <div>Ketebalan: {product.specifications.thickness}</div>
-                        )}
-                        {product.specifications.warranty && (
-                          <div>Garansi: {product.specifications.warranty}</div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
+                product={product}
+                onImageClick={openImagePopup}
+              />
             ))}
           </div>
           {/* Load More Button */}
@@ -343,7 +434,7 @@ const Products: React.FC = () => {
                   <div className="mb-4">
                     <h4 className="text-xs font-medium text-gray-800 mb-1">Keunggulan:</h4>
                     <div className="flex flex-wrap gap-1">
-                      {product.features.slice(0, 2).map((feature, featureIndex) => (
+                      {product.features.slice(0, 2).map((feature: string, featureIndex: number) => (
                         <span
                           key={featureIndex}
                           className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md text-xs font-medium"
@@ -385,6 +476,7 @@ const Products: React.FC = () => {
                     container.scrollLeft -= cardWidth;
                   }
                 }}
+                aria-label="Scroll left"
               >
                 <ChevronLeft size={16} />
               </button>
@@ -398,6 +490,7 @@ const Products: React.FC = () => {
                     container.scrollLeft += cardWidth;
                   }
                 }}
+                aria-label="Scroll right"
               >
                 <ChevronRight size={16} />
               </button>
@@ -466,6 +559,7 @@ const Products: React.FC = () => {
               <button
                 onClick={closeImagePopup}
                 className="p-1 bg-blue-50 hover:bg-blue-200 rounded-full transition-colors duration-300 hover:scale-110"
+                aria-label="Close modal"
               >
                 <X size={18} className="text-blue-600" />
               </button>
@@ -478,12 +572,15 @@ const Products: React.FC = () => {
                   src={selectedImage}
                   alt={filteredProducts[currentProductIndex]?.name}
                   className="w-full h-auto max-h-96 object-cover"
+                  loading="eager"
+                  decoding="async"
                 />
 
                 {/* Navigation Arrows */}
                 <button
                   onClick={() => navigateProduct('prev')}
                   className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-all duration-300"
+                  aria-label="Previous product"
                 >
                   <ChevronLeft size={24} className="text-gray-800" />
                 </button>
@@ -491,6 +588,7 @@ const Products: React.FC = () => {
                 <button
                   onClick={() => navigateProduct('next')}
                   className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-all duration-300"
+                  aria-label="Next product"
                 >
                   <ChevronRight size={24} className="text-gray-800" />
                 </button>
@@ -506,7 +604,7 @@ const Products: React.FC = () => {
                 <div className="mb-6">
                   <h4 className="text-sm font-medium text-gray-800 mb-2">Keunggulan:</h4>
                   <div className="flex flex-wrap gap-2">
-                    {filteredProducts[currentProductIndex]?.features?.map((feature, featureIndex) => (
+                    {filteredProducts[currentProductIndex]?.features?.map((feature: string, featureIndex: number) => (
                       <span
                         key={featureIndex}
                         className="bg-blue-50 text-blue-700 px-3 py-1 rounded-md text-sm font-medium"
@@ -553,20 +651,6 @@ const Products: React.FC = () => {
               <span className="text-sm text-gray-500">
                 {currentProductIndex + 1} dari {filteredProducts.length}
               </span>
-              {/* <div className="flex space-x-2">
-                <button
-                  onClick={() => navigateProduct('prev')}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-300"
-                >
-                  Sebelumnya
-                </button>
-                <button
-                  onClick={() => navigateProduct('next')}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300"
-                >
-                  Selanjutnya
-                </button>
-              </div> */}
             </div>
           </div>
         </div>

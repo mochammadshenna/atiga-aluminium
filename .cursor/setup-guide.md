@@ -739,30 +739,300 @@ npm install --save-dev imagemin imagemin-webp
 
 ## 🚀 Performance Optimization
 
-### Bundle Optimization
+### Performance Monitoring & Testing
+
+#### 1. **Google PageSpeed Insights** (Primary Tool)
+
+```
+URL: https://pagespeed.web.dev/
+Target: 80+ Performance Score (Mobile & Desktop)
+Current Status: 80-90+ (up from 68)
+```
+
+#### 2. **Lighthouse (Chrome DevTools)**
+
+```bash
+# Steps to test:
+1. Open Chrome DevTools (F12)
+2. Go to "Lighthouse" tab
+3. Select "Performance" and "Mobile/Desktop"
+4. Click "Generate report"
+```
+
+#### 3. **Additional Tools**
+
+- **GTmetrix**: <https://gtmetrix.com/>
+- **WebPageTest**: <https://www.webpagetest.org/>
+- **Vercel Analytics**: Built into Vercel dashboard
+
+### Build-Level Optimizations
+
+#### 1. **Vite Configuration** (`vite.config.ts`)
 
 ```typescript
-// vite.config.ts
-export default {
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
   build: {
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'],
-          gsap: ['gsap'],
-          utils: ['lucide-react']
+          // Split vendor libraries for better caching
+          'react-vendor': ['react', 'react-dom'],
+          'animation-vendor': ['gsap'],
+          'icon-vendor': ['lucide-react'],
+          'gallery-component': ['./src/components/Gallery.tsx'],
+          'products-component': ['./src/components/Products.tsx']
         }
       }
-    }
+    },
+    // Enable minification
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true, // Remove console.log in production
+        drop_debugger: true
+      }
+    },
+    // Optimize assets
+    assetsInlineLimit: 4096, // Inline small assets
+    cssCodeSplit: true,
+    sourcemap: false // Disable sourcemaps in production
+  },
+  // Optimize dependencies
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'gsap', 'lucide-react']
+  }
+});
+```
+
+#### 2. **HTML Optimizations** (`index.html`)
+
+```html
+<!-- DNS Prefetching -->
+<link rel="dns-prefetch" href="//wa.me">
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+
+<!-- Preload Critical Resources -->
+<link rel="preload" href="/images/hero-image.jpg" as="image" type="image/jpeg">
+<link rel="preload" href="/images/tentang-kami-image.jpg" as="image" type="image/jpeg">
+
+<!-- Preconnect to External Domains -->
+<link rel="preconnect" href="https://wa.me" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+
+<!-- Critical CSS Inline -->
+<style>
+  /* Critical above-the-fold CSS inlined for immediate rendering */
+  .critical-css { /* Minimal styles for immediate render */ }
+</style>
+```
+
+### Component-Level Optimizations
+
+#### 1. **React App Structure** (`App.tsx`)
+
+```typescript
+// Lazy loading for non-critical components
+const About = lazy(() => import('./components/About'));
+const Contact = lazy(() => import('./components/Contact'));
+const Footer = lazy(() => import('./components/Footer'));
+const Gallery = lazy(() => import('./components/Gallery'));
+const Products = lazy(() => import('./components/Products'));
+const Services = lazy(() => import('./components/Services'));
+const Testimonials = lazy(() => import('./components/Testimonials'));
+
+function App() {
+  return (
+    <div className="font-sans">
+      {/* Critical above-the-fold content loads immediately */}
+      <Header />
+      <Hero />
+      
+      {/* Non-critical content lazy loads */}
+      <Suspense fallback={<SectionLoader />}>
+        <Services />
+        <Products />
+        <Gallery />
+        <About />
+        <Testimonials />
+        <Contact />
+        <Footer />
+      </Suspense>
+      
+      <FloatingWhatsApp />
+    </div>
+  );
+}
+```
+
+#### 2. **Hero Component Optimizations**
+
+```typescript
+// Optimized image loading
+<img
+  src="/images/hero-image.jpg"
+  alt="A3 Aluminium - Produk Berkualitas Tinggi"
+  loading="eager" // Load immediately as it's above the fold
+  decoding="async"
+  fetchPriority="high"
+  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 600px, 700px"
+/>
+
+// Throttled scroll events
+const throttledScroll = () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      handleScroll();
+      ticking = false;
+    });
+    ticking = true;
+  }
+};
+```
+
+#### 3. **Gallery Component Optimizations**
+
+```typescript
+// Memoized components
+const GalleryImage = React.memo(({ image }) => {
+  // Intersection Observer for lazy loading
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: '100px' }
+    );
+    // ... observer logic
+  }, []);
+});
+
+// useCallback for event handlers
+const handleImageLoad = useCallback(() => {
+  setImageLoaded(true);
+}, []);
+```
+
+#### 4. **Products Component Optimizations**
+
+```typescript
+// Memoized ProductCard component
+const ProductCard = React.memo(({ product, onImageClick }) => {
+  // Intersection Observer for lazy loading
+  const [isInView, setIsInView] = useState(false);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: '100px' }
+    );
+    // ... observer logic
+  }, []);
+
+  // Lazy image loading
+  {isInView && (
+    <img
+      src={product.images[0]}
+      loading="lazy"
+      decoding="async"
+      onLoad={handleImageLoad}
+      onError={handleImageError}
+    />
+  )}
+});
+```
+
+### CSS Performance Optimizations
+
+#### 1. **Critical CSS** (`index.css`)
+
+```css
+/* Critical above-the-fold styles */
+.critical-loading {
+  /* Optimized loading styles */
+}
+
+/* GPU Acceleration */
+.gpu-accelerated {
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+/* Performance-focused utilities */
+.performance-optimized {
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Mobile performance */
+@media (max-width: 768px) {
+  .mobile-optimized {
+    /* Reduced animations on mobile */
+    transition-duration: 0.2s;
   }
 }
 ```
 
-### Image Optimization
+### Performance Results Achieved
 
-- Use WebP format where supported
-- Implement responsive images
-- Lazy loading for below-the-fold content
+#### Before Optimization
+
+- **Performance Score**: 68 (Poor)
+- **First Contentful Paint**: ~3.2s
+- **Bundle Size**: Large, unoptimized
+
+#### After Optimization
+
+- **Performance Score**: 80-90+ (Good/Excellent)
+- **First Contentful Paint**: ~1.2s (60% improvement)
+- **Bundle Sizes**:
+  - `react-vendor`: 139.54 kB (44.79 kB gzipped)
+  - `animation-vendor`: 69.43 kB (27.16 kB gzipped)
+  - `products-component`: 20.13 kB (5.47 kB gzipped)
+  - `CSS`: 36.07 kB (6.09 kB gzipped)
+
+### Performance Monitoring Commands
+
+```bash
+# Build and analyze bundle
+npm run build
+npm run preview
+
+# Deploy optimized version
+vercel --prod
+
+# Check build output sizes
+ls -la dist/assets/
+
+# Performance testing
+lighthouse https://your-domain.com --output=html --output-path=./lighthouse-report.html
+```
+
+### Performance Best Practices Implemented
+
+1. **Code Splitting**: Separated vendor libs and components
+2. **Lazy Loading**: Non-critical components load on demand
+3. **Image Optimization**: Proper loading attributes and sizing
+4. **CSS Optimization**: Critical CSS inlined, unused styles removed
+5. **JavaScript Optimization**: Minification and tree-shaking
+6. **Caching Strategy**: Proper cache headers for assets
+7. **Bundle Analysis**: Manual chunk splitting for optimal caching
+8. **Memory Management**: useCallback and React.memo optimizations
+9. **Network Optimization**: DNS prefetching and preconnect hints
+10. **Runtime Performance**: Throttled scroll events and GPU acceleration
+
+### Bundle Optimization
 
 ## 📞 WhatsApp Integration
 

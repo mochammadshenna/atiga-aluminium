@@ -33,12 +33,10 @@ const Hero: React.FC = () => {
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
 
-      // Parallax for image
-      if (imageRef.current) {
-        gsap.to(imageRef.current, {
-          y: scrolled * 0.5,
-          duration: 0.1,
-          ease: "none"
+      // Parallax for image (reduced for performance)
+      if (imageRef.current && scrolled < window.innerHeight) {
+        gsap.set(imageRef.current, {
+          y: scrolled * 0.3, // Reduced parallax intensity
         });
       }
 
@@ -56,8 +54,20 @@ const Hero: React.FC = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Throttle scroll event for performance
+    let ticking = false;
+    const throttledScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', throttledScroll, { passive: true });
+    return () => window.removeEventListener('scroll', throttledScroll);
   }, []);
 
   const handleImageLoad = () => {
@@ -69,6 +79,11 @@ const Hero: React.FC = () => {
         ease: "power2.out"
       });
     }
+  };
+
+  const handleImageError = () => {
+    console.warn('Hero image failed to load');
+    setImageLoaded(true); // Show placeholder/fallback
   };
 
   const scrollToNextSection = () => {
@@ -89,7 +104,7 @@ const Hero: React.FC = () => {
     const phoneNumber = "6289636124857";
     const message = encodeURIComponent("Halo *Pak Uki*, saya tertarik untuk pemasangan Aluminium dan ingin konsultasi lebih lanjut. Terima kasih.");
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-    window.open(whatsappUrl, '_blank');
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
 
   const backgroundPattern = `data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233b82f6' fill-opacity='0.03'%3E%3Crect width='2' height='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E`;
@@ -159,7 +174,11 @@ const Hero: React.FC = () => {
                   className="w-full h-full object-cover opacity-0 transition-opacity duration-800"
                   style={{ objectPosition: 'right center' }}
                   onLoad={handleImageLoad}
-                  onError={() => console.log('Image failed to load')}
+                  onError={handleImageError}
+                  loading="eager" // Load immediately as it's above the fold
+                  decoding="async"
+                  fetchPriority="high"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 600px, 700px"
                 />
 
                 {/* Loading placeholder */}

@@ -1,6 +1,6 @@
 import { gsap } from 'gsap';
 import { Calendar, ChevronLeft, ChevronRight, ExternalLink, MapPin, User, X } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { galleryImages, GalleryItem } from '../data/gallery';
 
 const Gallery: React.FC = () => {
@@ -36,7 +36,7 @@ const Gallery: React.FC = () => {
           );
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: '50px' }
     );
 
     if (sectionRef.current) {
@@ -50,7 +50,7 @@ const Gallery: React.FC = () => {
     };
   }, []);
 
-  // Auto-scroll functionality
+  // Auto-scroll functionality with performance optimization
   useEffect(() => {
     const startAutoScroll = () => {
       if (galleryRef.current && !isPaused) {
@@ -85,7 +85,7 @@ const Gallery: React.FC = () => {
   }, [isPaused]);
 
   // Open modal with selected image
-  const openModal = (image: GalleryItem) => {
+  const openModal = useCallback((image: GalleryItem) => {
     setSelectedImage(image);
     setCurrentImageIndex(galleryImages.findIndex(img => img.id === image.id));
     document.body.style.overflow = 'hidden';
@@ -98,10 +98,10 @@ const Gallery: React.FC = () => {
         { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
       );
     }
-  };
+  }, []);
 
   // Close modal
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     if (modalRef.current) {
       gsap.to(modalRef.current, {
         opacity: 0,
@@ -115,10 +115,10 @@ const Gallery: React.FC = () => {
         }
       });
     }
-  };
+  }, []);
 
   // Navigate through images in modal
-  const navigateImage = (direction: 'prev' | 'next') => {
+  const navigateImage = useCallback((direction: 'prev' | 'next') => {
     let newIndex = currentImageIndex;
 
     if (direction === 'next') {
@@ -129,10 +129,10 @@ const Gallery: React.FC = () => {
 
     setCurrentImageIndex(newIndex);
     setSelectedImage(galleryImages[newIndex]);
-  };
+  }, [currentImageIndex]);
 
-  // Manual scroll controls
-  const scrollGallery = (direction: 'left' | 'right') => {
+  // Manual scroll controls with performance optimization
+  const scrollGallery = useCallback((direction: 'left' | 'right') => {
     if (galleryRef.current) {
       const scrollAmount = 350;
       const currentScroll = galleryRef.current.scrollLeft;
@@ -152,7 +152,117 @@ const Gallery: React.FC = () => {
         }
       });
     }
-  };
+  }, []);
+
+  // Optimized image component with lazy loading
+  const GalleryImage: React.FC<{ image: GalleryItem; index: number }> = React.memo(({ image }) => {
+    const imageRef = useRef<HTMLImageElement>(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [isInView, setIsInView] = useState(false);
+
+    useEffect(() => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsInView(true);
+            observer.unobserve(entry.target);
+          }
+        },
+        { rootMargin: '100px' }
+      );
+
+      if (imageRef.current) {
+        observer.observe(imageRef.current);
+      }
+
+      return () => {
+        if (imageRef.current) {
+          observer.unobserve(imageRef.current);
+        }
+      };
+    }, []);
+
+    const handleImageLoad = () => {
+      setIsLoaded(true);
+    };
+
+    const handleImageError = () => {
+      console.warn(`Gallery image failed to load: ${image.title}`);
+      setIsLoaded(true);
+    };
+
+    return (
+      <div
+        className="gallery-card flex-shrink-0 w-80 bg-white rounded-lg shadow-md overflow-hidden cursor-pointer group transition-all duration-500 hover:shadow-2xl"
+        onClick={() => openModal(image)}
+      >
+        <div className="relative overflow-hidden h-64" ref={imageRef}>
+          {isInView && (
+            <>
+              <img
+                src={image.image}
+                alt={image.title}
+                className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+                onLoad={handleImageLoad}
+                onError={handleImageError}
+                style={{
+                  opacity: isLoaded ? 1 : 0,
+                  transition: 'opacity 0.3s ease-in-out'
+                }}
+              />
+
+              {!isLoaded && (
+                <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+                  <div className="text-gray-400 text-sm">Loading...</div>
+                </div>
+              )}
+            </>
+          )}
+
+          {!isInView && (
+            <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+              <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
+            </div>
+          )}
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
+
+          {/* Text overlay on image - only shown on hover */}
+          <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out transform translate-y-2 group-hover:translate-y-0">
+            <h3 className="font-semibold text-lg mb-1">{image.title}</h3>
+            <p className="text-sm opacity-90 line-clamp-2">{image.description}</p>
+
+            {/* Additional info */}
+            <div className="flex items-center justify-between mt-2 text-xs">
+              {image.location && (
+                <div className="flex items-center">
+                  <MapPin size={12} className="mr-1" />
+                  <span>{image.location}</span>
+                </div>
+              )}
+              {image.year && (
+                <div className="flex items-center">
+                  <Calendar size={12} className="mr-1" />
+                  <span>{image.year}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out transform scale-75 group-hover:scale-100">
+            <ExternalLink size={16} className="text-white" />
+          </div>
+        </div>
+
+        {/* Minimal card content - no text, just clean design */}
+        <div className="p-2">
+          <div className="h-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
+        </div>
+      </div>
+    );
+  });
 
   return (
     <div id="gallery" className="py-16 md:py-24 bg-gray-50 relative overflow-hidden">
@@ -193,6 +303,7 @@ const Gallery: React.FC = () => {
             onClick={() => scrollGallery('left')}
             className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg text-blue-600 hover:text-blue-800 hover:bg-white transition-all duration-300 transform hover:scale-110"
             style={{ transform: 'translateY(-50%) translateX(-50%)' }}
+            aria-label="Scroll left"
           >
             <ChevronLeft size={24} />
           </button>
@@ -201,6 +312,7 @@ const Gallery: React.FC = () => {
             onClick={() => scrollGallery('right')}
             className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg text-blue-600 hover:text-blue-800 hover:bg-white transition-all duration-300 transform hover:scale-110"
             style={{ transform: 'translateY(-50%) translateX(50%)' }}
+            aria-label="Scroll right"
           >
             <ChevronRight size={24} />
           </button>
@@ -213,53 +325,8 @@ const Gallery: React.FC = () => {
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
-            {galleryImages.map((image) => (
-              <div
-                key={image.id}
-                className="gallery-card flex-shrink-0 w-80 bg-white rounded-lg shadow-md overflow-hidden cursor-pointer group transition-all duration-500 hover:shadow-2xl"
-                onClick={() => openModal(image)}
-              >
-                <div className="relative overflow-hidden h-64">
-                  <img
-                    src={image.image}
-                    alt={image.title}
-                    className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out" />
-
-                  {/* Text overlay on image - only shown on hover */}
-                  <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out transform translate-y-2 group-hover:translate-y-0">
-                    <h3 className="font-semibold text-lg mb-1">{image.title}</h3>
-                    <p className="text-sm opacity-90 line-clamp-2">{image.description}</p>
-
-                    {/* Additional info */}
-                    <div className="flex items-center justify-between mt-2 text-xs">
-                      {image.location && (
-                        <div className="flex items-center">
-                          <MapPin size={12} className="mr-1" />
-                          <span>{image.location}</span>
-                        </div>
-                      )}
-                      {image.year && (
-                        <div className="flex items-center">
-                          <Calendar size={12} className="mr-1" />
-                          <span>{image.year}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out transform scale-75 group-hover:scale-100">
-                    <ExternalLink size={16} className="text-white" />
-                  </div>
-                </div>
-
-                {/* Minimal card content - no text, just clean design */}
-                <div className="p-2">
-                  <div className="h-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
-                </div>
-              </div>
+            {galleryImages.map((image, index) => (
+              <GalleryImage key={image.id} image={image} index={index} />
             ))}
           </div>
         </div>
@@ -270,24 +337,19 @@ const Gallery: React.FC = () => {
             <button
               onClick={() => scrollGallery('left')}
               className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors duration-300"
+              aria-label="Scroll left"
             >
               <ChevronLeft size={20} />
             </button>
             <button
               onClick={() => scrollGallery('right')}
               className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors duration-300"
+              aria-label="Scroll right"
             >
               <ChevronRight size={20} />
             </button>
           </div>
         </div>
-
-        {/* Auto-scroll indicator */}
-        {/* <div className="text-center mt-4">
-          <p className="text-sm text-gray-500">
-            Galeri berputar otomatis • Hover untuk menghentikan
-          </p>
-        </div> */}
       </div>
 
       {/* Modal for Image Detail */}
@@ -305,6 +367,7 @@ const Gallery: React.FC = () => {
               <button
                 onClick={closeModal}
                 className="p-1 bg-blue-50 hover:bg-blue-200 rounded-full transition-colors duration-300 hover:scale-110"
+                aria-label="Close modal"
               >
                 <X size={18} className="text-blue-600" />
               </button>
@@ -317,12 +380,15 @@ const Gallery: React.FC = () => {
                   src={selectedImage.image}
                   alt={selectedImage.title}
                   className="w-full h-auto max-h-96 object-cover"
+                  loading="eager"
+                  decoding="async"
                 />
 
                 {/* Navigation Arrows */}
                 <button
                   onClick={() => navigateImage('prev')}
                   className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-all duration-300"
+                  aria-label="Previous image"
                 >
                   <ChevronLeft size={24} className="text-gray-800" />
                 </button>
@@ -330,6 +396,7 @@ const Gallery: React.FC = () => {
                 <button
                   onClick={() => navigateImage('next')}
                   className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-all duration-300"
+                  aria-label="Next image"
                 >
                   <ChevronRight size={24} className="text-gray-800" />
                 </button>
@@ -382,20 +449,6 @@ const Gallery: React.FC = () => {
               <span className="text-sm text-gray-500">
                 {currentImageIndex + 1} dari {galleryImages.length}
               </span>
-              {/* <div className="flex space-x-2">
-                <button
-                  onClick={() => navigateImage('prev')}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-300"
-                >
-                  Sebelumnya
-                </button>
-                <button
-                  onClick={() => navigateImage('next')}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300"
-                >
-                  Selanjutnya
-                </button>
-              </div> */}
             </div>
           </div>
         </div>

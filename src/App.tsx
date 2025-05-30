@@ -1,16 +1,28 @@
 // TODO : for test uncomment the code below
 // import { useEffect, useState } from 'react';
-import { useEffect } from 'react';
-import About from './components/About';
-import Contact from './components/Contact';
+import { Suspense, lazy, useEffect } from 'react';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
-import Footer from './components/Footer';
-import Gallery from './components/Gallery';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import Products from './components/Products';
-import Services from './components/Services';
-import Testimonials from './components/Testimonials';
+
+// Lazy load non-critical components for better performance
+const About = lazy(() => import('./components/About'));
+const Contact = lazy(() => import('./components/Contact'));
+const Footer = lazy(() => import('./components/Footer'));
+const Gallery = lazy(() => import('./components/Gallery'));
+const Products = lazy(() => import('./components/Products'));
+const Services = lazy(() => import('./components/Services'));
+const Testimonials = lazy(() => import('./components/Testimonials'));
+
+// Loading component for lazy loaded sections
+const SectionLoader = () => (
+  <div className="min-h-[200px] flex items-center justify-center">
+    <div className="flex items-center space-x-2 text-blue-600">
+      <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+      <span className="text-sm">Memuat...</span>
+    </div>
+  </div>
+);
 
 function App() {
   // TODO : for test uncomment the code below
@@ -171,15 +183,40 @@ function App() {
   try {
     return (
       <div className="font-sans">
+        {/* Critical above-the-fold content loads immediately */}
         <Header />
         <Hero />
-        <Services />
-        <Products />
-        <Gallery />
-        <About />
-        <Testimonials />
-        <Contact />
-        <Footer />
+
+        {/* Non-critical content loads lazily */}
+        <Suspense fallback={<SectionLoader />}>
+          <Services />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader />}>
+          <Products />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader />}>
+          <Gallery />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader />}>
+          <About />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader />}>
+          <Testimonials />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader />}>
+          <Contact />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader />}>
+          <Footer />
+        </Suspense>
+
+        {/* FloatingWhatsApp loads immediately as it's interactive */}
         <FloatingWhatsApp />
       </div>
     );
