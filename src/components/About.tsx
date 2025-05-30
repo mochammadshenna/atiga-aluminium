@@ -1,4 +1,4 @@
-import { ArrowRight, BookmarkCheck, CheckCircle, Target, Wrench } from 'lucide-react';
+import { BookmarkCheck, CheckCircle, Target, Wrench } from 'lucide-react';
 import React, { useEffect, useRef } from 'react';
 
 interface FeatureProps {
@@ -194,7 +194,7 @@ const About: React.FC = () => {
 
           {/* Mobile Horizontal Scroll */}
           <div className="md:hidden">
-            <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 px-2" id="about-container">
+            <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 px-2">
               {features.map((feature, index) => (
                 <div
                   key={index}
@@ -209,16 +209,6 @@ const About: React.FC = () => {
                   </div>
                 </div>
               ))}
-              <div className="flex justify-end mt-4">
-                <button className="bg-blue-600 text-white px-4 py-2 rounded-full" onClick={() => {
-                  const container = document.getElementById('about-container');
-                  if (container) {
-                    container.scrollLeft += 100;
-                  }
-                }}>
-                  <ArrowRight size={16} />
-                </button>
-              </div>
             </div>
           </div>
         </div>

@@ -6,7 +6,9 @@ const Hero: React.FC = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
 
   useEffect(() => {
     const tl = gsap.timeline();
@@ -27,15 +29,30 @@ const Hero: React.FC = () => {
         "-=0.3"
       );
 
-    // Parallax effect for background
+    // Parallax effect for background and scroll indicator logic
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
+
+      // Parallax for image
       if (imageRef.current) {
         gsap.to(imageRef.current, {
           y: scrolled * 0.5,
           duration: 0.1,
           ease: "none"
         });
+      }
+
+      // Hide scroll indicator when reaching buttons area
+      if (buttonsRef.current) {
+        const buttonsRect = buttonsRef.current.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        // Hide when buttons area reaches middle of screen
+        if (buttonsRect.top <= windowHeight * 0.6) {
+          setShowScrollIndicator(false);
+        } else {
+          setShowScrollIndicator(true);
+        }
       }
     };
 
@@ -100,7 +117,7 @@ const Hero: React.FC = () => {
 
               <div className="space-y-4 md:space-y-6">
                 <h1 className="text-3xl md:text-4xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight">
-                  Solusi
+                  Solusi Pemasangan
                   <span className="text-blue-600 bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
                     {" "}Aluminium{" "}
                   </span>
@@ -113,7 +130,7 @@ const Hero: React.FC = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+              <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-3 md:gap-4">
                 <button
                   onClick={scrollToGallery}
                   className="group bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 md:px-8 md:py-4 rounded-full text-base md:text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center"
@@ -173,20 +190,6 @@ const Hero: React.FC = () => {
               <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-blue-600/20 rounded-full blur-2xl"></div>
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-purple-600/10 rounded-full blur-2xl"></div>
             </div>
-
-            {/* Scroll indicator - Perfectly centered on all mobile devices */}
-            <div
-              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:hidden cursor-pointer z-20"
-              onClick={scrollToNextSection}
-              style={{
-                marginLeft: '0px',
-                animation: 'bounce 2s infinite, pulse 3s infinite'
-              }}
-            >
-              <div className="bg-blue-300/45 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-blue-350/45 active:bg-blue-400 transition-all duration-300 border-2 border-white/30 hover:border-white/50">
-                <ChevronDown size={22} className="text-blue-700 drop-shadow-sm" />
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -198,6 +201,24 @@ const Hero: React.FC = () => {
       >
         <div className="bg-blue-300/45 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-blue-350/45 active:bg-blue-400 transition-all duration-300 border-2 border-white/30 hover:border-white/50">
           <ChevronDown size={24} className="text-blue-700 drop-shadow-sm" />
+        </div>
+      </div>
+
+      {/* Scroll indicator - Smoothly auto-hides when reaching buttons */}
+      <div
+        className="absolute md:hidden cursor-pointer z-20 transition-all duration-500 ease-out"
+        onClick={scrollToNextSection}
+        style={{
+          top: '70%',
+          left: '45%',
+          transform: `translate(-50%, -50%) ${showScrollIndicator ? 'scale(1)' : 'scale(0.8)'}`,
+          opacity: showScrollIndicator ? 1 : 0,
+          pointerEvents: showScrollIndicator ? 'auto' : 'none',
+          animation: showScrollIndicator ? 'bounce 2s infinite, pulse 3s infinite' : 'none'
+        }}
+      >
+        <div className="bg-blue-300/45 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-blue-350/45 active:bg-blue-400 transition-all duration-300 border-2 border-white/30 hover:border-white/50">
+          <ChevronDown size={20} className="text-blue-700 drop-shadow-sm" />
         </div>
       </div>
     </div>

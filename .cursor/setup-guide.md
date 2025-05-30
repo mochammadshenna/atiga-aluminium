@@ -837,8 +837,8 @@ http://localhost:5173/scripts/svg-to-png-converter.html
   - **Hero Section Mobile Fixes**:
     - Added proper top padding (`pt-20 md:pt-24`) to account for fixed navbar height
     - Adjusted hero image height from 300px to 280px on mobile for better proportion
-    - Perfect ChevronDown centering across all devices (iPhone 12 Pro, iPhone 7 Pro, 390x844px screens)
-    - Enhanced scroll button UI with blue background (`bg-blue-300/45`), white icon, border, and pulse animation
+    - ChevronDown smooth auto-hide: fades out with opacity and scale transitions (500ms duration) when reaching buttons
+    - Enhanced scroll button UI with smaller circle on mobile (`p-2`), blue background (`bg-blue-300/45`), and conditional animations
     - Fixed badge and content positioning to prevent navbar cropping
     - Enhanced mobile layout with proper spacing from navbar (80px mobile, 96px desktop)
   - **Hero image frame redesigned** to be properly landscape/horizontal oriented (600-700px wide on desktop) with object-cover for better presentation

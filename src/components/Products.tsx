@@ -337,13 +337,13 @@ const Products: React.FC = () => {
             ))}
           </div>
           <div className="flex justify-start mt-4">
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-full" onClick={() => {
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2" onClick={() => {
               const container = document.getElementById('products-container');
               if (container) {
                 container.scrollLeft += 100;
               }
             }}>
-              <ArrowLeft size={16} />
+              <ArrowLeft size={16} /> <span className="text-sm">Geser ke kiri</span>
             </button>
           </div>
         </div>
