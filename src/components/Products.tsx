@@ -1,5 +1,5 @@
 import { gsap } from 'gsap';
-import { ArrowLeft, DoorOpen, Eye, Grid3X3, MoveHorizontal, Settings, Sparkles, Square, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, DoorOpen, Eye, Grid3X3, MoveHorizontal, Settings, Sparkles, Square, X } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { productCategories, products } from '../data/products';
 
@@ -7,10 +7,12 @@ const Products: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [currentProductIndex, setCurrentProductIndex] = useState(0);
   const [visibleProducts, setVisibleProducts] = useState(6); // Show 6 products initially
   const [showLoadMore, setShowLoadMore] = useState(true);
   const sectionRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   // Icon mapping - added DoorOpen for Door icon
   const iconMap = {
@@ -92,14 +94,48 @@ const Products: React.FC = () => {
 
   // Open image popup
   const openImagePopup = (imageSrc: string) => {
+    const productIndex = filteredProducts.findIndex(product => product.images[0] === imageSrc);
+    setCurrentProductIndex(productIndex);
     setSelectedImage(imageSrc);
     document.body.style.overflow = 'hidden';
+
+    // Animate modal open
+    if (modalRef.current) {
+      gsap.fromTo(modalRef.current,
+        { opacity: 0, scale: 0.8 },
+        { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
+      );
+    }
   };
 
   // Close image popup
   const closeImagePopup = () => {
-    setSelectedImage(null);
-    document.body.style.overflow = 'auto';
+    if (modalRef.current) {
+      gsap.to(modalRef.current, {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.3,
+        ease: "power2.in",
+        onComplete: () => {
+          setSelectedImage(null);
+          document.body.style.overflow = 'auto';
+        }
+      });
+    }
+  };
+
+  // Navigate through products in modal
+  const navigateProduct = (direction: 'prev' | 'next') => {
+    let newIndex = currentProductIndex;
+
+    if (direction === 'next') {
+      newIndex = currentProductIndex < filteredProducts.length - 1 ? currentProductIndex + 1 : 0;
+    } else {
+      newIndex = currentProductIndex > 0 ? currentProductIndex - 1 : filteredProducts.length - 1;
+    }
+
+    setCurrentProductIndex(newIndex);
+    setSelectedImage(filteredProducts[newIndex].images[0]);
   };
 
   // WhatsApp function
@@ -266,7 +302,7 @@ const Products: React.FC = () => {
         {/* Products Horizontal Scroll - Mobile */}
         <div className="md:hidden">
           <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 px-2" id="products-container">
-            {filteredProducts.slice(0, visibleProducts).map((product) => (
+            {filteredProducts.map((product) => (
               <div
                 key={product.id}
                 className="product-card flex-shrink-0 w-80 bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer transform hover:-translate-y-2"
@@ -336,15 +372,36 @@ const Products: React.FC = () => {
               </div>
             ))}
           </div>
-          <div className="flex justify-start mt-4">
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-full flex items-center gap-2" onClick={() => {
-              const container = document.getElementById('products-container');
-              if (container) {
-                container.scrollLeft += 100;
-              }
-            }}>
-              <ArrowLeft size={16} /> <span className="text-sm">Geser ke kiri</span>
-            </button>
+          {/* Scroll Navigation Buttons */}
+          <div className="md:hidden flex justify-center mt-6">
+            <div className="flex space-x-2">
+              <button
+                className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors duration-300"
+                onClick={() => {
+                  const container = document.getElementById('products-container');
+                  if (container) {
+                    // Calculate card width (320px) + gap (16px) = 336px per card
+                    const cardWidth = 320 + 16; // w-80 (320px) + gap-4 (16px)
+                    container.scrollLeft -= cardWidth;
+                  }
+                }}
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors duration-300"
+                onClick={() => {
+                  const container = document.getElementById('products-container');
+                  if (container) {
+                    // Calculate card width (320px) + gap (16px) = 336px per card
+                    const cardWidth = 320 + 16; // w-80 (320px) + gap-4 (16px)
+                    container.scrollLeft += cardWidth;
+                  }
+                }}
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -396,26 +453,121 @@ const Products: React.FC = () => {
 
       {/* Image Popup Modal */}
       {selectedImage && (
-        <div
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
-          onClick={closeImagePopup}
-        >
-          <div className="relative max-w-4xl max-h-[90vh] w-full h-full flex items-center justify-center">
-            {/* Close Button */}
-            <button
-              onClick={closeImagePopup}
-              className="absolute top-4 right-4 z-10 bg-white/10 backdrop-blur-sm p-2 rounded-full text-white hover:bg-white/20 transition-colors duration-300"
-            >
-              <X size={24} />
-            </button>
+        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+          <div
+            ref={modalRef}
+            className="relative bg-white rounded-lg overflow-hidden max-w-4xl w-full max-h-[90vh] flex flex-col"
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 border-b">
+              <h3 className="text-xl font-semibold text-gray-800">
+                {filteredProducts[currentProductIndex]?.name}
+              </h3>
+              <button
+                onClick={closeImagePopup}
+                className="p-1 bg-blue-50 hover:bg-blue-200 rounded-full transition-colors duration-300 hover:scale-110"
+              >
+                <X size={18} className="text-blue-600" />
+              </button>
+            </div>
 
-            {/* Image */}
-            <img
-              src={selectedImage}
-              alt="Product Image"
-              className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            />
+            {/* Modal Content */}
+            <div className="flex-1 overflow-y-auto">
+              <div className="relative">
+                <img
+                  src={selectedImage}
+                  alt={filteredProducts[currentProductIndex]?.name}
+                  className="w-full h-auto max-h-96 object-cover"
+                />
+
+                {/* Navigation Arrows */}
+                <button
+                  onClick={() => navigateProduct('prev')}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-all duration-300"
+                >
+                  <ChevronLeft size={24} className="text-gray-800" />
+                </button>
+
+                <button
+                  onClick={() => navigateProduct('next')}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-all duration-300"
+                >
+                  <ChevronRight size={24} className="text-gray-800" />
+                </button>
+              </div>
+
+              {/* Product Details */}
+              <div className="p-6">
+                <p className="text-gray-600 mb-4 leading-relaxed">
+                  {filteredProducts[currentProductIndex]?.description}
+                </p>
+
+                {/* Features */}
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium text-gray-800 mb-2">Keunggulan:</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {filteredProducts[currentProductIndex]?.features?.map((feature, featureIndex) => (
+                      <span
+                        key={featureIndex}
+                        className="bg-blue-50 text-blue-700 px-3 py-1 rounded-md text-sm font-medium"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Specifications */}
+                {filteredProducts[currentProductIndex]?.specifications && (
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <h4 className="text-sm font-medium text-gray-800 mb-2">Spesifikasi:</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-gray-600">
+                      {filteredProducts[currentProductIndex]?.specifications?.material && (
+                        <div>
+                          <span className="font-medium">Material:</span> {filteredProducts[currentProductIndex]?.specifications?.material}
+                        </div>
+                      )}
+                      {filteredProducts[currentProductIndex]?.specifications?.thickness && (
+                        <div>
+                          <span className="font-medium">Ketebalan:</span> {filteredProducts[currentProductIndex]?.specifications?.thickness}
+                        </div>
+                      )}
+                      {filteredProducts[currentProductIndex]?.specifications?.color && (
+                        <div>
+                          <span className="font-medium">Warna:</span> {filteredProducts[currentProductIndex]?.specifications?.color?.join(', ')}
+                        </div>
+                      )}
+                      {filteredProducts[currentProductIndex]?.specifications?.warranty && (
+                        <div>
+                          <span className="font-medium">Garansi:</span> {filteredProducts[currentProductIndex]?.specifications?.warranty}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 border-t bg-gray-50 flex justify-between items-center">
+              <span className="text-sm text-gray-500">
+                {currentProductIndex + 1} dari {filteredProducts.length}
+              </span>
+              {/* <div className="flex space-x-2">
+                <button
+                  onClick={() => navigateProduct('prev')}
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-300"
+                >
+                  Sebelumnya
+                </button>
+                <button
+                  onClick={() => navigateProduct('next')}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300"
+                >
+                  Selanjutnya
+                </button>
+              </div> */}
+            </div>
           </div>
         </div>
       )}

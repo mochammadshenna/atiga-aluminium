@@ -304,9 +304,9 @@ const Gallery: React.FC = () => {
               </h3>
               <button
                 onClick={closeModal}
-                className="p-2 bg-blue-100 hover:bg-blue-300 rounded-full transition-colors duration-300 hover:scale-110"
+                className="p-1 bg-blue-50 hover:bg-blue-200 rounded-full transition-colors duration-300 hover:scale-110"
               >
-                <X size={24} className="text-blue-600" />
+                <X size={18} className="text-blue-600" />
               </button>
             </div>
 
@@ -382,7 +382,7 @@ const Gallery: React.FC = () => {
               <span className="text-sm text-gray-500">
                 {currentImageIndex + 1} dari {galleryImages.length}
               </span>
-              <div className="flex space-x-2">
+              {/* <div className="flex space-x-2">
                 <button
                   onClick={() => navigateImage('prev')}
                   className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-300"
@@ -395,7 +395,7 @@ const Gallery: React.FC = () => {
                 >
                   Selanjutnya
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

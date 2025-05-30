@@ -21,8 +21,8 @@ export const products: Product[] = [
     category: "windows",
     description: "Jendela aluminium berkualitas tinggi dengan desain modern dan efisiensi energi optimal. Tahan korosi dan cuaca ekstrem.",
     features: [
-      "Tahan korosi dan karat",
       "Desain modern minimalis",
+      "Tahan korosi",
       "Efisiensi energi tinggi",
       "Insulasi suara yang baik",
       "Perawatan mudah"

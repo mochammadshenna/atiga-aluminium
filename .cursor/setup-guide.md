@@ -779,10 +779,10 @@ For technical support or content updates:
   - Fixed icon colors for proper white visibility
   - Enhanced background integration
 - **Products Section**:
-  - Removed action buttons for cleaner design
-  - Added full-screen image popup functionality
-  - Updated with 11 high-quality local product images
-  - Faster animations (0.3s duration, 0.05s stagger)
+  - **Mobile horizontal scrolling**: Shows all products with card-by-card navigation buttons (Previous/Next)
+  - **Desktop pagination**: Maintains responsive grid layout (2-3 columns) with "Load More" functionality showing 6 products initially
+  - **Card-by-card scrolling**: Precise navigation with 336px scroll distance (320px card + 16px gap)
+  - **Click-anywhere-to-close functionality** added to product image popups for better UX
 - **Gallery**:
   - Auto-scroll functionality (3-second intervals)
   - Pause on hover with manual control resume
