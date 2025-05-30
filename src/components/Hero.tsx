@@ -86,8 +86,8 @@ const Hero: React.FC = () => {
         style={{ backgroundImage: `url("${backgroundPattern}")` }}
       ></div>
 
-      {/* Main hero section */}
-      <div className="flex-1 flex items-center relative z-10 py-8 md:py-0">
+      {/* Main hero section - Added proper top padding for navbar */}
+      <div className="flex-1 flex items-center relative z-10 pt-20 md:pt-24 pb-16 md:pb-20">
         <div className="w-full">
           <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Left side content */}
@@ -133,7 +133,7 @@ const Hero: React.FC = () => {
 
             {/* Right side image - Landscape frame for desktop */}
             <div className="relative order-1 md:order-2">
-              <div className="relative h-[300px] md:h-[450px] lg:h-[500px] w-full md:w-[600px] lg:w-[700px] rounded-2xl overflow-hidden shadow-xl mx-auto">
+              <div className="relative h-[280px] md:h-[450px] lg:h-[500px] w-full md:w-[600px] lg:w-[700px] rounded-2xl overflow-hidden shadow-xl mx-auto">
                 {/* Hero Image with landscape frame fitting */}
                 <img
                   ref={imageRef}
@@ -177,9 +177,9 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - Improved mobile positioning */}
       <div
-        className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce z-10"
+        className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce z-10"
         onClick={scrollToNextSection}
       >
         <div className="bg-white/80 backdrop-blur-sm p-2 md:p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300">
