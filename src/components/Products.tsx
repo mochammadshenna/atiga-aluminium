@@ -105,7 +105,7 @@ const Products: React.FC = () => {
   // WhatsApp function
   const openWhatsApp = () => {
     const phoneNumber = "6289636124857";
-    const message = encodeURIComponent("Halo, saya tertarik dengan produk custom A3 Aluminium dan ingin konsultasi gratis. Bisa minta informasi lebih lanjut?");
+    const message = encodeURIComponent("Halo *Pak Uki*, saya tertarik dengan produk custom A3 Aluminium dan ingin konsultasi gratis. Bisa minta informasi lebih lanjut?");
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank');
   };
