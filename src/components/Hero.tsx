@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 const Hero: React.FC = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+  const backgroundRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -29,28 +30,36 @@ const Hero: React.FC = () => {
         "-=0.3"
       );
 
-    // Parallax effect for background and scroll indicator logic
+    // Enhanced scroll handling with improved mobile logic
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
+      const windowHeight = window.innerHeight;
 
       // Parallax for image (reduced for performance)
-      if (imageRef.current && scrolled < window.innerHeight) {
+      if (imageRef.current && scrolled < windowHeight) {
         gsap.set(imageRef.current, {
           y: scrolled * 0.3, // Reduced parallax intensity
         });
       }
 
-      // Hide scroll indicator when reaching buttons area
-      if (buttonsRef.current) {
-        const buttonsRect = buttonsRef.current.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
+      // Smooth background image zoom animation
+      if (backgroundRef.current) {
+        const progress = Math.min(scrolled / (windowHeight * 0.5), 1);
+        const scale = 1 + (progress * 0.1); // Scale from 1 to 1.1
+        gsap.set(backgroundRef.current, {
+          scale: scale,
+          transformOrigin: 'center center',
+        });
+      }
 
-        // Hide when buttons area reaches middle of screen
-        if (buttonsRect.top <= windowHeight * 0.6) {
-          setShowScrollIndicator(false);
-        } else {
-          setShowScrollIndicator(true);
-        }
+      // Improved mobile scroll indicator logic
+      // Hide indicator when scrolled past 30% of viewport height
+      const scrollThreshold = windowHeight * 0.3;
+
+      if (scrolled > scrollThreshold) {
+        setShowScrollIndicator(false);
+      } else {
+        setShowScrollIndicator(true);
       }
     };
 
@@ -111,8 +120,15 @@ const Hero: React.FC = () => {
 
   return (
     <div id="home" className="relative min-h-screen flex flex-col overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-gray-50"></div>
+      {/* Background Pattern with Zoom Animation */}
+      <div
+        ref={backgroundRef}
+        className="absolute inset-0 transition-transform duration-1000 ease-out"
+        style={{
+          background: 'linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #f9fafb 100%)',
+          willChange: 'transform'
+        }}
+      ></div>
       <div
         className="absolute inset-0 opacity-20"
         style={{ backgroundImage: `url("${backgroundPattern}")` }}
@@ -223,20 +239,32 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Scroll indicator - Smoothly auto-hides when reaching buttons */}
+      {/* Mobile Scroll indicator - Improved logic to prevent stuck state */}
       <div
-        className="absolute md:hidden cursor-pointer z-20 transition-all duration-500 ease-out"
+        className="md:hidden absolute left-1/2 transform -translate-x-1/2 cursor-pointer z-20"
         onClick={scrollToNextSection}
         style={{
           top: '70%',
-          left: '45%',
-          transform: `translate(-50%, -50%) ${showScrollIndicator ? 'scale(1)' : 'scale(0.8)'}`,
           opacity: showScrollIndicator ? 1 : 0,
-          pointerEvents: showScrollIndicator ? 'auto' : 'none',
-          animation: showScrollIndicator ? 'bounce 2s infinite, pulse 3s infinite' : 'none'
+          visibility: showScrollIndicator ? 'visible' : 'hidden',
+          transition: 'all 0.4s ease-in-out',
+          transform: `translateX(-50%) ${showScrollIndicator ? 'translateY(0) scale(1)' : 'translateY(10px) scale(0.8)'}`
         }}
       >
-        <div className="bg-blue-300/45 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-blue-350/45 active:bg-blue-400 transition-all duration-300 border-2 border-white/30 hover:border-white/50">
+        {/* 
+          🎯 POSITION CONTROL:
+          - Change 'bottom-16' to move button up/down:
+            * bottom-8  = closer to bottom
+            * bottom-12 = middle position  
+            * bottom-16 = current position (higher up)
+            * bottom-20 = even higher up
+            * bottom-24 = much higher up
+          
+          - Or use top-[value] instead of bottom-[value]:
+            * top-[70%] = 70% from top of screen
+            * top-[75%] = 75% from top of screen
+        */}
+        <div className="bg-blue-300/50 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-blue-400/50 active:bg-blue-500/50 transition-all duration-300 border-2 border-white/40 hover:border-white/60 animate-bounce">
           <ChevronDown size={20} className="text-blue-700 drop-shadow-sm" />
         </div>
       </div>
