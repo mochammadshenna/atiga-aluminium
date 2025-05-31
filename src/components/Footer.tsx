@@ -32,47 +32,47 @@ const Footer: React.FC = () => {
               Memberikan pelayanan terbaik dan terpercaya
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition duration-300">
+              <a href="https://atiga-aluminium.vercel.app/" className="text-gray-400 hover:text-blue-400 transition duration-300">
                 <Facebook size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition duration-300">
+              <a href="https://atiga-aluminium.vercel.app/" className="text-gray-400 hover:text-blue-400 transition duration-300">
                 <Twitter size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition duration-300">
+              <a href="https://atiga-aluminium.vercel.app/" className="text-gray-400 hover:text-blue-400 transition duration-300">
                 <Linkedin size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition duration-300">
+              <a href="https://atiga-aluminium.vercel.app/" className="text-gray-400 hover:text-blue-400 transition duration-300">
                 <Instagram size={20} />
               </a>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:w-1/2">
+          <div className="grid grid-cols-2 gap-4 md:gap-8 md:w-1/2">
             <div>
-              <h3 className="text-lg font-semibold mb-4 text-blue-400">Produk</h3>
-              <ul className="space-y-2">
-                <li><a href="#products" className="text-gray-400 hover:text-white transition duration-300">Jendela Aluminium</a></li>
-                <li><a href="#products" className="text-gray-400 hover:text-white transition duration-300">Pintu Aluminium</a></li>
-                <li><a href="#products" className="text-gray-400 hover:text-white transition duration-300">Jendela Sliding</a></li>
-                <li><a href="#products" className="text-gray-400 hover:text-white transition duration-300">Kaca Tempered</a></li>
-                <li><a href="#products" className="text-gray-400 hover:text-white transition duration-300">Solusi Custom</a></li>
+              <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-blue-400">Produk</h3>
+              <ul className="space-y-1 md:space-y-2">
+                <li><a href="#products" className="text-sm md:text-base text-gray-400 hover:text-white transition duration-300">Jendela Aluminium</a></li>
+                <li><a href="#products" className="text-sm md:text-base text-gray-400 hover:text-white transition duration-300">Pintu Aluminium</a></li>
+                <li><a href="#products" className="text-sm md:text-base text-gray-400 hover:text-white transition duration-300">Jendela Sliding</a></li>
+                <li><a href="#products" className="text-sm md:text-base text-gray-400 hover:text-white transition duration-300">Kaca Tempered</a></li>
+                <li><a href="#products" className="text-sm md:text-base text-gray-400 hover:text-white transition duration-300">Solusi Custom</a></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-4 text-blue-400">Layanan</h3>
-              <ul className="space-y-2">
-                <li><a href="#services" className="text-gray-400 hover:text-white transition duration-300">Pemasangan Jendela</a></li>
-                <li><a href="#services" className="text-gray-400 hover:text-white transition duration-300">Pemasangan Pintu</a></li>
-                <li><a href="#services" className="text-gray-400 hover:text-white transition duration-300">Pemasangan Custom</a></li>
-                <li><a href="#about" className="text-gray-400 hover:text-white transition duration-300">Tentang Kami</a></li>
-                <li><a href="#contact" className="text-gray-400 hover:text-white transition duration-300">Kontak</a></li>
+              <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-blue-400">Layanan</h3>
+              <ul className="space-y-1 md:space-y-2">
+                <li><a href="#services" className="text-sm md:text-base text-gray-400 hover:text-white transition duration-300">Pemasangan Jendela</a></li>
+                <li><a href="#services" className="text-sm md:text-base text-gray-400 hover:text-white transition duration-300">Pemasangan Pintu</a></li>
+                <li><a href="#services" className="text-sm md:text-base text-gray-400 hover:text-white transition duration-300">Pemasangan Custom</a></li>
+                <li><a href="#about" className="text-sm md:text-base text-gray-400 hover:text-white transition duration-300">Tentang Kami</a></li>
+                <li><a href="#contact" className="text-sm md:text-base text-gray-400 hover:text-white transition duration-300">Kontak</a></li>
               </ul>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between">
+        <div className="border-t border-gray-800 mt-12 pt-6 flex flex-col md:flex-row items-center justify-between">
           <p className="text-gray-500 text-sm mb-4 md:mb-0">
             Copyright &copy; {new Date().getFullYear()} ATIGA Aluminium
           </p>

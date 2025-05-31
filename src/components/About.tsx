@@ -173,7 +173,7 @@ const About: React.FC = () => {
         {/* Why Choose Us Section */}
         <div className="mt-16">
           <div className="text-center mb-16">
-            <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Mengapa Memilih ATIGA Aluminium?</h3>
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Mengapa Memilih <span className="text-blue-600">ATIGA </span> ?</h3>
             <p className="text-gray-600 max-w-6xl mx-auto">
               Keunggulan dan komitmen kami yang menjadikan ATIGA Aluminium pilihan terbaik untuk kebutuhan Anda
             </p>
